@@ -15,6 +15,7 @@ export default function Dashboard() {
 
   const handleNewConversation = () => {
     const newId = uuid4();
+    console.log("clicked handleNewConversation");
     const newConversation = {
       id: newId,
       title: `New Conversation ${historyRecords.length + 1}`,
