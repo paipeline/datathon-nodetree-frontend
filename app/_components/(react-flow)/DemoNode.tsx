@@ -30,7 +30,7 @@ export function DemoNode({ data, onGenerateAIResponse }: CustomNodeProps) {
 
   return (
     <BaseNode className="flex py-2 px-3 rounded-2xl h-auto flex-col">
-      <NodeHeader className="min-h-[56px] px-0 flex items-start">
+      <NodeHeader className="px-0 flex flex-col items-start">
         <NodeHeaderTitle className="w-full">
           <textarea
             ref={textareaRef}
