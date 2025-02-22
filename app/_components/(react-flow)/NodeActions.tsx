@@ -1,6 +1,6 @@
 import { NodeHeaderAction } from "@/components/node-header";
 import { SendHorizonal, Trash } from "lucide-react";
-import { useDeleteNode } from "@/app/hooks/useNodeLogics";
+import { useDeleteNode } from "@/app/_hooks/useNodeLogics";
 
 interface SubmitActionProps {
   handleSubmit: () => void;

@@ -15,6 +15,7 @@ import { DemoNode } from './DemoNode';
 import '@xyflow/react/dist/style.css';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'sonner';
+import { useState } from 'react';
 
 const nodeTypes = {
   CNode: DemoNode,
@@ -61,6 +62,8 @@ const initialEdges = [
 export default function FlowCanvas() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onConnect = useCallback((connection: any) => {
     if (connection.source === connection.target) {
@@ -68,8 +71,44 @@ export default function FlowCanvas() {
     }
     const edge = {...connection, animated: true, id: uuidv4() + '-edge'}
     setEdges((prevEdges: any) => addEdge(edge, prevEdges))
-  }, [])
+  }, []);
 
+  const onGenerateAIResponse = async (prompt: string): Promise<string> => {
+    return `AI Response for: ${prompt}`;
+  };
+
+  const handleSubmit = async (inputValue: string) => {
+    setIsLoading(true);
+    setMessages((prevMessages) => [...prevMessages, { role: 'user', content: inputValue }]);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messages: [
+            ...messages,
+            { role: "user", content: inputValue },
+          ],
+        }),
+      });
+
+      if (!response.ok) throw new Error('Request failed');
+
+      const data = await response.json();
+      setMessages((prevMessages) => [...prevMessages, { role: "assistant", content: data.content }]);
+
+    } catch (error) {
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: '⚠️ Error: ' + (error as Error).message + ' API调用失败，请检查网络连接或稍后再试。'
+      }]);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <ReactFlowProvider>
@@ -87,7 +126,7 @@ export default function FlowCanvas() {
           nodeTypes={{
             CNode: (props) => {
               const { data, ...nodeProps } = props;
-              return <DemoNode data={data} onGenerateAIResponse={onGenerateAIResponse} {...nodeProps} />;
+              return <DemoNode data={data} onGenerateAIResponse={onGenerateAIResponse} onSubmit={handleSubmit} isLoading={isLoading} setIsLoading={setIsLoading} {...nodeProps} />;
             }
           }}
         >
