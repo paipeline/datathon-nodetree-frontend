@@ -37,7 +37,7 @@ export function DemoNode({ data, onGenerateAIResponse }: CustomNodeProps) {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Enter your prompt..."
-            className="rounded-lg border w-full outline-none resize-none bg-transparent p-1 text-sm"
+            className="rounded-lg border w-full outline-none resize-none bg-gray-100 p-1 text-sm"
             rows={1}
             onInput={adjustTextareaHeight}
             style={{ height: `${textareaHeight}px` }}

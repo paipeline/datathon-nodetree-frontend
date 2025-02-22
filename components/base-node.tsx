@@ -8,7 +8,7 @@ export const BaseNode = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "",
+      "bg-[rgba(255,255,255,0.5)] backdrop-blur-sm rounded-lg",
       className,
       selected ? "border-muted-foreground shadow-lg" : "",
       "hover:ring-1",
