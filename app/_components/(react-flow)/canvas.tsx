@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import {
   ReactFlow,
+  ReactFlowProvider,
   MiniMap,
   Controls,
   Background,
@@ -10,6 +11,7 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { v4 as uuidv4 } from 'uuid';
+import UserInput from './user-input';
  
 const initialNodes = [
   { 
@@ -35,11 +37,22 @@ const initialNodes = [
       y: Math.random() * window.innerHeight,
     },
     data: { label: '3' },
+  },
+  {
+    id: 'user-input-node',
+    type: 'userInput',
+    position: { x: 150, y: 150 },
+    data: { label: 'User Input Node' }
   }
 ];
+
 const initialEdges = [
   { id: '456', source: '1', target: '2', animated: true }
 ];
+
+const nodeTypes = {
+  userInput: UserInput,
+};
  
 export default function Canvas() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -51,19 +64,22 @@ export default function Canvas() {
   }, [])
  
   return (
+      <ReactFlowProvider>
     <div style={{ width: '100vw', height: '100vh' }}>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        fitView
-      >
-        <Controls />
-        <MiniMap />
-        <Background variant="dots" gap={12} size={1} />
-      </ReactFlow>
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          fitView
+          nodeTypes={nodeTypes}
+        >
+          <Controls />
+          <MiniMap />
+          <Background variant="dots" gap={12} size={1} />
+        </ReactFlow>
     </div>
+      </ReactFlowProvider>
   );
 }
