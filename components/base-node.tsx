@@ -8,10 +8,10 @@ export const BaseNode = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "bg-[rgba(255,255,255,0.5)] backdrop-blur-sm rounded-lg",
+      "bg-[rgba(255,255,255,0.5)] backdrop-blur-sm rounded-lg border border-gray-200",
       className,
       selected ? "border-muted-foreground shadow-lg" : "",
-      "hover:ring-1",
+      "hover:opacity-50 transition-all duration-300",
     )}
     tabIndex={0}
     {...props}
