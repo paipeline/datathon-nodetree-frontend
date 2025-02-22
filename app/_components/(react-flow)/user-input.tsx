@@ -6,6 +6,7 @@ import { ArrowUp, Trash } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import "@/styles/fade-in.css";
+import { Handle, Position } from '@xyflow/react';
 
 function UserInput({ data, onSubmit, setIsLoading }: { data: any, onSubmit: (input: string) => void, setIsLoading: (loading: boolean) => void }) {
 
@@ -94,6 +95,7 @@ function UserInput({ data, onSubmit, setIsLoading }: { data: any, onSubmit: (inp
         backdropFilter: "blur(20px)",
       }}
     >
+      <Handle type="source" position={Position.Bottom} id="a" />
       <div className="text-sm text-gray-500 font-bold mb-2">{"Ask Me Now..."}</div>
       <textarea
         ref={textareaRef}

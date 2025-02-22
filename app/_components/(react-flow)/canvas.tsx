@@ -7,6 +7,7 @@ import {
   useNodesState,
   useEdgesState,
   addEdge,
+  ReactFlowProvider,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { v4 as uuidv4 } from 'uuid';
@@ -23,20 +24,22 @@ export default function Canvas() {
   }, [setCustomEdges])
  
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
-      <ReactFlow
-        nodes={customNodes}
-        edges={customEdges}
-        onNodesChange={onCustomNodesChange}
-        onEdgesChange={onCustomEdgesChange}
-        onConnect={onConnect}
-        fitView
-        nodeTypes={nodeTypes as any}
-      >
-        <Controls />
-        <MiniMap />
-        <Background variant="dots" gap={12} size={1} />
-      </ReactFlow>
-    </div>
+    <ReactFlowProvider>
+      <div style={{ width: '100vw', height: '100vh' }}>
+        <ReactFlow
+          nodes={customNodes}
+          edges={customEdges}
+          onNodesChange={onCustomNodesChange}
+          onEdgesChange={onCustomEdgesChange}
+          onConnect={onConnect}
+          fitView
+          nodeTypes={nodeTypes as any}
+        >
+          <Controls />
+          <MiniMap />
+          <Background variant="dots" gap={12} size={1} />
+        </ReactFlow>
+      </div>
+    </ReactFlowProvider>
   );
 }

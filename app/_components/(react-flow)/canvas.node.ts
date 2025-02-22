@@ -31,11 +31,35 @@ export const initialNodes = [
     content: '',
     position: { x: 150, y: 150 },
     data: { label: 'AI Response Node' }
+  },
+  {
+    id: 'ai-response-node-2',
+    type: 'aiResponse',
+    content: '',
+    position: { x: 150, y: 150 },
+    data: { label: 'AI Response Node' }
+  },
+  {
+    id: 'ai-response-node-3',
+    type: 'aiResponse',
+    content: '',
+    position: { x: 150, y: 150 },
+    data: { label: 'AI Response Node' }
+  },
+  {
+    id: 'ai-response-node-4',
+    type: 'aiResponse',
+    content: '',
+    position: { x: 150, y: 150 },
+    data: { label: 'AI Response Node' }
   }
 ];
 
 export const initialEdges = [
-  { id: 'user-input-node-1-ai-response-node-1', source: 'user-input-node-1', target: 'ai-response-node-1', animated: true }
+  { id: 'user-input-node-1-ai-response-node-1', source: 'user-input-node-1', target: 'ai-response-node-1', animated: true },
+  { id: 'user-input-node-2-ai-response-node-2', source: 'user-input-node-1', target: 'ai-response-node-2', animated: true },
+  { id: 'user-input-node-3-ai-response-node-3', source: 'user-input-node-1', target: 'ai-response-node-3', animated: true },
+  { id: 'user-input-node-4-ai-response-node-4', source: 'user-input-node-1', target: 'ai-response-node-4', animated: true }
 ];
 
 export const nodeTypes = {
