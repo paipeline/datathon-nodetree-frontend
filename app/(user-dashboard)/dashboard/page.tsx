@@ -4,9 +4,25 @@ import Sidebar from "@/app/_components/(sidebar)/sidebar";
 import { useState } from "react";
 import { Bot } from "lucide-react";
 import "@/styles/fade-in.css";
+import { v4 as uuid4 } from "uuid";
+import { useConversation } from "@/app/_contexts/ConversationProvider";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { historyRecords, addConversation } = useConversation();
+  const router = useRouter();
+
+  const handleNewConversation = () => {
+    const newId = uuid4();
+    const newConversation = {
+      id: newId,
+      title: `New Conversation ${historyRecords.length + 1}`,
+      messages: [],
+    };
+    addConversation(newConversation);
+    router.push(`/dashboard/${newId}`);
+  };
 
   return (
     <div className="fixed inset-0 flex overflow-hidden">
@@ -35,6 +51,7 @@ export default function Dashboard() {
                 <button
                   className="group/button text-white px-4 py-2 rounded-md mt-4 w-fit bg-gradient-to-r from-blue-300 to-purple-300 hover:from-blue-400 hover:to-purple-400 transition-all duration-300
                   transform hover:translate-x-1 fade-in-5"
+                  onClick={handleNewConversation}
                 >
                   <span className="font-bold font-mono">Get Started</span>&nbsp; by creating a new chat
                 </button>

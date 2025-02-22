@@ -192,10 +192,12 @@ const Sidebar = ({
           ).map((record) => (
             <li
               key={record.id}
-              className="text-gray-700 text-sm py-1 cursor-pointer hover:text-blue-500"
+              className="flex items-center justify-start py-2 px-4 cursor-pointer mt-2 rounded-lg hover:bg-gray-100 transition-all duration-300 hover:text-blue-500"
               onClick={() => router.push(`/dashboard/${record.id}`)}
             >
-              {record.title}
+              <p className="text-gray-700 text-sm cursor-pointer">
+                {record.title}
+              </p>
             </li>
           ))}
         </ul>
