@@ -31,7 +31,7 @@ export default function Canvas() {
         onEdgesChange={onCustomEdgesChange}
         onConnect={onConnect}
         fitView
-        nodeTypes={nodeTypes}
+        nodeTypes={nodeTypes as any}
       >
         <Controls />
         <MiniMap />

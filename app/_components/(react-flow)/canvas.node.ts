@@ -1,4 +1,5 @@
 import UserInput from "./user-input";
+import AiResponse from "./ai-response";
 
 export interface Node {
   id: string;                 // 节点唯一标识
@@ -23,13 +24,21 @@ export const initialNodes = [
     content: '',
     position: { x: 150, y: 150 },
     data: { label: 'User Input Node' }
+  },
+  {
+    id: 'ai-response-node-1',
+    type: 'aiResponse',
+    content: '',
+    position: { x: 150, y: 150 },
+    data: { label: 'AI Response Node' }
   }
 ];
 
 export const initialEdges = [
-  { id: '456', source: '1', target: '2', animated: true }
+  { id: 'user-input-node-1-ai-response-node-1', source: 'user-input-node-1', target: 'ai-response-node-1', animated: true }
 ];
 
 export const nodeTypes = {
-  userInput: UserInput
+  userInput: UserInput,
+  aiResponse: AiResponse
 };
