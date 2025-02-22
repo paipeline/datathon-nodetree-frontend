@@ -6,50 +6,76 @@ import { useState, useEffect } from "react";
 import Conversations from "@/app/_components/(conversation)/conversations";
 import InputBar from "@/app/_components/(conversation)/inputbar";
 import Canvas from "@/app/_components/(react-flow)/canvas";
+import { useConversation, Conversation } from "@/app/_contexts/ConversationProvider";
 import "@/styles/fade-in.css";
+
+type Message = { role: "user" | "assistant"; content: string };
 
 const ConversationArea = ({
   isSidebarOpen,
+  conversationId,
 }: {
   isSidebarOpen: boolean;
+  conversationId?: string;
 }) => {
-  const [chatName, setChatName] = useState('New Chat');
-  const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([]);
+  const { getConversationById, updateConversation, addConversation } = useConversation();
+  const [conversation, setConversation] = useState<Conversation | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [caroselIndex, setCaroselIndex] = useState<number>(0);
 
+  // Initialize or load conversation
+  useEffect(() => {
+    if (!conversationId) return;
+    const conv = getConversationById(conversationId);
+    if (conv) {
+      setConversation(conv);
+    } else {
+      const newConversation = { id: conversationId, title: "New Chat", messages: [] };
+      setConversation(newConversation);
+      addConversation(newConversation);
+    }
+  }, [conversationId, getConversationById, addConversation]);
+
   const handleSubmit = async (inputValue: string) => {
+    if (!conversation) return;
     setIsLoading(true);
-    setMessages((prevMessages) => [...prevMessages, { role: 'user', content: inputValue }]);
+
+    const userMessage: Message = { role: "user", content: inputValue };
+    const updatedMessages = [...conversation.messages, userMessage];
+    const updatedConversation = { ...conversation, messages: updatedMessages };
+
+    setConversation(updatedConversation);
+    updateConversation(updatedConversation);
 
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          messages: [
-            ...messages,
-            { role: "user", content: inputValue },
-          ],
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: updatedMessages }),
       });
 
-      if (!response.ok) throw new Error('Request failed');
+      if (!response.ok) throw new Error("Request failed");
 
       const data = await response.json();
-      setMessages((prevMessages) => [...prevMessages, { role: "assistant", content: data.content }]);
+      const assistantMessage: Message = { role: "assistant", content: data.content };
+      const finalMessages = [...updatedMessages, assistantMessage];
+      const finalConversation = { ...conversation, messages: finalMessages };
 
+      setConversation(finalConversation);
+      updateConversation(finalConversation);
     } catch (error) {
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: '⚠️ Error: ' + (error as Error).message + ' API调用失败，请检查网络连接或稍后再试。'
-      }]);
+      console.error("API error:", error);
     } finally {
       setIsLoading(false);
     }
-  }
+  };
+
+  const handleTitleChange = (newTitle: string) => {
+    if (!conversation) return;
+    const updatedConversation = { ...conversation, title: newTitle || "New Chat" };
+    setConversation(updatedConversation);
+    updateConversation(updatedConversation);
+  };
 
   return (
     <div className="flex flex-col flex-grow h-full fade-in">
@@ -73,24 +99,21 @@ const ConversationArea = ({
         >
           Canvas Mode
         </div>
+
         <div className="flex items-center justify-center bg-transparent rounded-lg hover:bg-gray-200
           transition-all duration-300 px-4 py-1 shadow-sm"
           style={{
             transform: caroselIndex === 1 ? 'translateX(0)' : 'translateX(-65%)'
           }}
         >
-          <button
-            className="text-md font-medium text-gray-600 transition-all duration-300"
-          >
-            <input
-              type="text"
-              value={chatName}
-              onChange={(e) => setChatName(e.target.value)}
-              onBlur={chatName === '' ? () => setChatName('New Chat') : undefined}
-              className="w-full h-full bg-transparent outline-none text-md font-medium text-gray-600 transition-all duration-300"
-            />
-          </button>
+          <input
+            type="text"
+            value={conversation?.title || "New Chat"}
+            onChange={(e) => handleTitleChange(e.target.value)}
+            className="w-full h-full bg-transparent outline-none text-md font-medium text-gray-600 transition-all duration-300"
+          />
         </div>
+
         <div className="flex justify-end ml-auto translate-x-[-55px]">
           <FileText className="w-4 h-4 text-gray-600 transition-all duration-300 translate-x-[24px] translate-y-[8px]" />
           <div className="flex items-center justify-center ml-auto w-8 h-8 bg-transparent rounded-lg hover:bg-gray-200 shadow-sm
@@ -118,6 +141,7 @@ const ConversationArea = ({
         </div>
         <div className="absolute top-[48px] left-0 w-[100%] h-px bg-gray-200" />
       </header>
+
       <div
         className={`flex flex-grow relative`}
         style={{
@@ -126,13 +150,13 @@ const ConversationArea = ({
         }}
       >
         <div className="absolute inset-0 flex h-full w-full overflow-hidden py-6 px-6 md:px-12 lg:px-40 2xl:px-64 transition-all duration-300">
-          <Conversations messages={messages} isLoading={isLoading} />
-          {/* <MarkitdownPreviewArea /> */}
+          <Conversations messages={conversation?.messages || []} isLoading={isLoading} />
         </div>
         <div className="absolute inset-0 flex flex-col flex-grow h-full w-full overflow-hidden" style={{ left: '100%' }}>
           <Canvas />
         </div>
       </div>
+
       <div
         className="flex justify-center p-2 pt-0"
         style={{

@@ -3,20 +3,26 @@
 import { PanelLeftDashed, SquarePen, Search } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { v4 as uuid4 } from "uuid";
+import { useConversation } from "@/app/_contexts/ConversationProvider";
 
 const Sidebar = ({
   onSidebarToggle,
 }: {
   onSidebarToggle: (isOpen: boolean) => void;
 }) => {
+  const router = useRouter();
+  const { historyRecords, addConversation } = useConversation();
+  
   // react state
   const [sidebarWidth, setSidebarWidth] = useState(320);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarFullyOpen, setIsSidebarFullyOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
 
   // react refs
   const sidebarRef = useRef<HTMLDivElement>(null);
-
 
   // functions
   /**
@@ -91,6 +97,25 @@ const Sidebar = ({
     }
   }
 
+  // Add new conversation handler
+  const handleNewConversation = () => {
+    const newId = uuid4();
+    const newConversation = {
+      id: newId,
+      title: `New Conversation ${historyRecords.length + 1}`,
+      messages: [],
+    };
+    addConversation(newConversation);
+    router.push(`/dashboard/${newId}`);
+  };
+
+  // Add search handler
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && searchInput.trim() !== "") {
+      setSearchInput(e.currentTarget.value);
+    }
+  };
+
   return (
     <div
       ref={sidebarRef}
@@ -121,6 +146,7 @@ const Sidebar = ({
                 "flex items-center justify-center ml-2 w-8 h-8 bg-transparent rounded-lg shadow-sm hover:bg-[#e9e8e8] cursor-pointer transition-all duration-300",
                 isSidebarFullyOpen ? "opacity-100" : "opacity-0"
               )}
+              onClick={handleNewConversation}
             >
               <SquarePen className="w-5 h-5" />
             </div>
@@ -148,6 +174,9 @@ const Sidebar = ({
           type="text"
           placeholder="Search Chat History"
           className="w-full h-full bg-transparent border border-gray-300 rounded-lg px-10 py-2 text-sm outline-none"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          onKeyDown={handleSearch}
         />
       </div>
       {/* header: chat history */}
@@ -156,6 +185,20 @@ const Sidebar = ({
         isSidebarFullyOpen ? "opacity-100" : "opacity-0"
       )}>
         <p className="text-sm text-gray-500 px-6 py-2">Chat History</p>
+        <ul className="px-6 ml-3">
+          {historyRecords.filter(record => 
+            searchInput.trim() === "" || 
+            record.title.toLowerCase().includes(searchInput.toLowerCase())
+          ).map((record) => (
+            <li
+              key={record.id}
+              className="text-gray-700 text-sm py-1 cursor-pointer hover:text-blue-500"
+              onClick={() => router.push(`/dashboard/${record.id}`)}
+            >
+              {record.title}
+            </li>
+          ))}
+        </ul>
       </div>
       <div
         className={cn(

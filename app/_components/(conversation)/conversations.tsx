@@ -4,46 +4,87 @@ import { useState, useEffect, useRef } from "react";
 import ReactMarkdown from 'react-markdown';
 import { Bot } from "lucide-react";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import "@/styles/fade-in.css";
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 
+// Add these styles to your global CSS file (app/globals.css)
+// If you don't have it, create it in the app directory:
+/*
+.prose {
+  max-width: none;
+}
+.prose-sm {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.prose-pre\:bg-transparent pre {
+  background-color: transparent;
+}
+.prose-pre\:p-0 pre {
+  padding: 0;
+}
+*/
+
 const thinkingMessages = ["Thinking...", "Processing...", "Please wait...", "Loading...", "Analyzing...", "Generating...", "请主人稍等一下喵！"];
 
-const Conversations = ({ messages, isLoading }: { messages: Array<{ role: 'user' | 'assistant'; content: string }>, isLoading: boolean }) => {
+const Conversations = ({ messages, isLoading }: { 
+  messages: Array<{ role: 'user' | 'assistant'; content: string }>, 
+  isLoading: boolean 
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [displayedTexts, setDisplayedTexts] = useState<{ [key: number]: string }>({});
+  const [isTyping, setIsTyping] = useState(false);
 
+  // Handle typing animation for new messages
   useEffect(() => {
     const lastMessage = messages[messages.length - 1];
     const messageIndex = messages.length - 1;
 
-    if (lastMessage?.role === 'assistant' && !isLoading) {
+    if (lastMessage?.role === 'assistant' && !isLoading && !displayedTexts[messageIndex]) {
+      setIsTyping(true);
       let index = 0;
       const text = lastMessage.content;
+      
       const interval = setInterval(() => {
-        if (index < text.length - 1) {
+        if (index < text.length) {
           setDisplayedTexts(prev => ({
             ...prev,
-            [messageIndex]: (prev[messageIndex] || '') + text[index]
+            [messageIndex]: text.substring(0, index + 1)
           }));
           index++;
         } else {
           clearInterval(interval);
+          setIsTyping(false);
         }
       }, 15);
 
-      return () => clearInterval(interval);
+      return () => {
+        clearInterval(interval);
+        setIsTyping(false);
+      };
     }
   }, [messages, isLoading]);
 
+  // Save complete content of previous messages
+  useEffect(() => {
+    messages.forEach((message, index) => {
+      if (message.role === 'assistant' && !displayedTexts[index]) {
+        setDisplayedTexts(prev => ({
+          ...prev,
+          [index]: message.content
+        }));
+      }
+    });
+  }, [messages]);
+
+  // Auto-scroll to bottom on content change
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    // 创建一个观察器来监测内容变化
     const observer = new MutationObserver(() => {
       container.scrollTo({
         top: container.scrollHeight,
@@ -51,14 +92,12 @@ const Conversations = ({ messages, isLoading }: { messages: Array<{ role: 'user'
       });
     });
 
-    // 配置观察器
     observer.observe(container, {
-      childList: true,      // 监测子节点的添加或删除
-      subtree: true,        // 监测所有后代节点
-      characterData: true   // 监测文本内容的变化
+      childList: true,
+      subtree: true,
+      characterData: true
     });
 
-    // 清理函数
     return () => observer.disconnect();
   }, []);
 
@@ -83,7 +122,6 @@ const Conversations = ({ messages, isLoading }: { messages: Array<{ role: 'user'
             const lang = match ? match[1] : '';
 
             if (inline || !lang) {
-              // 如果是内联代码或没有指定语言，则使用内联样式
               return (
                 <code className="bg-gray-700 rounded px-1 text-white" {...props}>
                   {children}
@@ -91,7 +129,6 @@ const Conversations = ({ messages, isLoading }: { messages: Array<{ role: 'user'
               );
             }
 
-            // 保留 SyntaxHighlighter 用于多行代码块
             return (
               <SyntaxHighlighter
                 language={lang || 'text'}
@@ -107,7 +144,17 @@ const Conversations = ({ messages, isLoading }: { messages: Array<{ role: 'user'
               </SyntaxHighlighter>
             );
           },
-          a: ({ node, ...props }) => <a target="_blank" rel="noopener noreferrer" {...props} />,
+          p: ({ children }) => (
+            <p className="mb-2 last:mb-0">{children}</p>
+          ),
+          a: ({ node, ...props }) => (
+            <a 
+              className="text-blue-600 hover:text-blue-800 underline" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              {...props} 
+            />
+          ),
         }}
       >
         {content}
@@ -138,7 +185,11 @@ const Conversations = ({ messages, isLoading }: { messages: Array<{ role: 'user'
             <div className="flex gap-2 mb-2 fade-in">
               <Bot className="w-6 h-6" />
               <div className="text-sm bg-gray-200 rounded-2xl p-2 max-w-[70%] break-words">
-                {renderMessage(displayedTexts[index] || '')}
+                {renderMessage(
+                  isTyping && index === messages.length - 1
+                    ? displayedTexts[index] || ''
+                    : message.content
+                )}
               </div>
             </div>
           )}
