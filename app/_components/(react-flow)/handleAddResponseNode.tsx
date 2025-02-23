@@ -9,14 +9,16 @@ export const nodeTypes = {
 // 处理添加节点
 export const handleAddResponseNode = (
     setNodes: React.Dispatch<React.SetStateAction<Node[]>>,
-    content: string
+    title: string,
+    solution: string
 ) => {
     const newNode: Node = {
         id: uuidv4(),
         type: "aiResponse",
         position: { x: Math.random() * 300 , y: Math.random() * 300 },
         data: {
-            content
+            title,
+            solution
         }
     };
     console.log("Node added:", newNode);

@@ -15,7 +15,7 @@ import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 import { Handle, Position } from '@xyflow/react';
 
-const AiResponse = ({ data: { content } }: { data: { content: string } }) => {
+const AiResponse = ({ data: { title, solution } }: { data: { title: string, solution: string } }) => {
   // console.log("content - ai-response", content);
   return (
     <div
@@ -74,7 +74,7 @@ const AiResponse = ({ data: { content } }: { data: { content: string } }) => {
           a: ({ node, ...props }) => <a target="_blank" rel="noopener noreferrer" {...props} />,
         }}
       >
-        {content}
+        {solution}
       </ReactMarkdown>
     </div>
   );

@@ -34,7 +34,7 @@ export default function Canvas() {
   };
 
   const handleAddResponse = () => {
-    handleAddResponseNode(setCustomNodes, "这是一个新AI节点");
+    handleAddResponseNode(setCustomNodes, "title", "solution");
   };
 
   useEffect(() => {

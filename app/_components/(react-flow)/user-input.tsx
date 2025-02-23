@@ -81,7 +81,6 @@ export default function UserInput({
 
           // 检查是否以 data: 开头
           if (trimmedLine.startsWith('data: ')) {
-            console.log("event -- shiya 2");
             try {
               // 去掉 data: 后面的部分，并再次 trim
               const jsonData = trimmedLine.slice(6).trim();
@@ -89,7 +88,7 @@ export default function UserInput({
                 const parsedData = JSON.parse(jsonData);
                 console.log("Parsed data:", parsedData);
                 // 渲染 ai-response node
-                handleAddResponseNode(setCustomNodes as any, jsonData);
+                handleAddResponseNode(setCustomNodes as any, parsedData.title, parsedData.solution);
               }
             } catch (e) {
               console.error('Error parsing event data:', e);
