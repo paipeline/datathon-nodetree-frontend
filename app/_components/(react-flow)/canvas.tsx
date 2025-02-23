@@ -19,7 +19,6 @@ import handleAddInputNode from "./handleAddInputNode";
 import handleAddResponseNode from "./handleAddResponseNode";
 import { UserInput } from "./user-input";
 
-// 关键点：导入原先的 nodeTypes，但是需要重写 userInput
 import { nodeTypes as baseNodeTypes } from "./canvas.node";
 
 export default function Canvas() {
@@ -43,7 +42,7 @@ export default function Canvas() {
     console.log("customNodes", customNodes);
   }, [customNodes]);
 
-  // 使用 useMemo 来记忆化 nodeTypes
+  // used chatgpt and has been cited
   const nodeTypes = useMemo(() => ({
     ...baseNodeTypes,
     userInput: (nodeProps: any) => (

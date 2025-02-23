@@ -1,6 +1,7 @@
 import { UserInput } from "./user-input";
 import AiResponse from "./ai-response";
-import { Node as ReactFlowNode } from '@xyflow/react';
+import { Edge } from "@xyflow/react";
+// import { Node as ReactFlowNode } from '@xyflow/react';
 
 export interface Node {
   id: string;                // 节点唯一标识
@@ -63,7 +64,7 @@ export const initialNodes: Node[] = [
   // }
 ];
 
-export const initialEdges = [
+export const initialEdges: Edge[] = [
   // fake edges for testing
   // { id: 'user-input-node-1-ai-response-node-1', source: 'user-input-node-1', target: 'ai-response-node-1', animated: true },
   // { id: 'user-input-node-2-ai-response-node-2', source: 'user-input-node-1', target: 'ai-response-node-2', animated: true },

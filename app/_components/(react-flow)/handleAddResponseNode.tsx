@@ -43,9 +43,20 @@ export const handleAddResponseNode = (
             }
         };
 
-        setEdges((prevEdges: Edge[]): Edge[] => {
-            return [...prevEdges, { id: uuidv4(), source: lastUserInputNode.id, target: newNode.id, animated: true }];
-        });
+        // setEdges((prevEdges: Edge[]): Edge[] => {
+        //     prevEdges.push({ id: uuidv4(), source: lastUserInputNode.id, target: newNode.id, animated: true });
+        //     return [...prevEdges, new];
+        // });
+
+        const newEdge: Edge = {
+            id: uuidv4(),
+            source: lastUserInputNode.id,
+            target: newNode.id,
+            animated: true
+        };
+
+        push
+        
 
         console.log("新增 AI 节点:", newNode);
         return [...prevNodes, newNode];
