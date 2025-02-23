@@ -20,12 +20,6 @@ import handleAddResponseNode from "./handleAddResponseNode";
 import { UserInput } from "./user-input";
 import AiResponse from "./ai-response";
 
-import { nodeTypes as baseNodeTypes } from "./canvas.node";
-
-// 直接在模块作用域中定义并导出一个 Edge 数组 —— 这种写法可能会带来潜在问题
-export let edgesStore: Edge[] = [];
-export let nodesStore: Node[] = [];
-
 export default function Canvas() {
   const [customNodes, setCustomNodes, onCustomNodesChange] = useNodesState(initialNodes as any);
   const [customEdges, setCustomEdges, onCustomEdgesChange] = useEdgesState(initialEdges as any);

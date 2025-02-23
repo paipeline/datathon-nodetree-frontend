@@ -4,18 +4,18 @@ import { Edge } from "@xyflow/react";
 // import { Node as ReactFlowNode } from '@xyflow/react';
 
 export interface Node {
-  id: string;                // 节点唯一标识
-  color?: string;             // 颜色调节
-  type: string;               // 节点类型，例如 "question" | "answer" | "reasoning"
-  content?: string;            // 节点主要内容
-  metadata?: any;             // 节点元数据，存储额外信息（时间戳、来源等）
-  parentNodeId?: string;      // 父节点ID
-  childrenNodeIds?: string[]; // 子节点ID
-  position: {                 // 节点位置
+  id: string;                // unique id
+  color?: string;             // coloring the node
+  type: string;               // type of the node being displayed
+  content?: string;            // content = "" reactflow's must
+  metadata?: any;          // langauge
+  parentNodeId?: string;         // parentNodeId
+  childrenNodeIds?: string[];       // childrenNodeIds
+  position: {               
     x: number;
     y: number;
   };
-  data?: {                    // 新增的 data 属性
+  data?: {                    // place where to store the real data
     label: string;    
     content?: string;
     [key: string]: unknown;
@@ -34,6 +34,7 @@ export const initialNodes: Node[] = [
     data: { label: "", content: "" }
   },
   // fake nodes for testing
+
   // {
   //   id: 'ai-response-node-1',
   //   type: 'aiResponse',
@@ -66,6 +67,7 @@ export const initialNodes: Node[] = [
 
 export const initialEdges: Edge[] = [
   // fake edges for testing
+  
   // { id: 'user-input-node-1-ai-response-node-1', source: 'user-input-node-1', target: 'ai-response-node-1', animated: true },
   // { id: 'user-input-node-2-ai-response-node-2', source: 'user-input-node-1', target: 'ai-response-node-2', animated: true },
   // { id: 'user-input-node-3-ai-response-node-3', source: 'user-input-node-1', target: 'ai-response-node-3', animated: true },

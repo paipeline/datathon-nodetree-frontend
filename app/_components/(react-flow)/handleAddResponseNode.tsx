@@ -4,8 +4,6 @@ import { Node, Edge } from "@xyflow/react";
 import AiResponse from "./ai-response";
 import { v4 as uuidv4 } from "uuid";
 
-import { edgesStore, nodesStore } from "./canvas";
-
 export const nodeTypes = {
     aiResponse: AiResponse
 };
@@ -24,16 +22,12 @@ export const handleAddResponseNode = (
     setNodes((prevNodes: Node[]): Node[] => {
         const userInputNodes = prevNodes.filter((node) => node.type === "userInput");
 
-        if (!nodesStore.some((node) => node.id === userInputNodes[userInputNodes.length - 1].id)) {
-            nodesStore.push(userInputNodes[userInputNodes.length - 1]);
-        }
 
         if (!userInputNodes || userInputNodes.length === 0) {
             // console.log("未找到 userInput 类型节点，无法定位父节点");
             return prevNodes;
         }
 
-        // 这里以"最后一个" userInput 节点作为父节点
         const lastUserInputNode = userInputNodes[userInputNodes.length - 1];
 
         // in respect to the father node, add the new node to the good position
@@ -58,11 +52,6 @@ export const handleAddResponseNode = (
             });
         }, 500)
         
-        console.log("edgesStore", edgesStore);
-
-        console.log("新增 AI 节点:", newNode);
-
-        nodesStore.push(newNode);
         return [...prevNodes, newNode];
     });
 

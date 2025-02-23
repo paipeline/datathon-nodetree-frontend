@@ -91,7 +91,7 @@ const AiResponse = ({ data: { title, solution } }: { data: { title: string, solu
 
     // setIsLoading(true);
     // onSubmit(inputValue);
-    setInputValue(""); // 触发useEffect中的高度调整
+    setInputValue(""); 
   };
 
   // console.log("content - ai-response", content);;

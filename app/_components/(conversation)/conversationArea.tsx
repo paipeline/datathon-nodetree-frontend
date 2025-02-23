@@ -166,7 +166,7 @@ const ConversationArea = ({
           transform: caroselIndex === 0 ? 'translateX(0)' : 'translateX(-100%)'
         }}
       >
-        <div className="absolute inset-0 flex h-full w-full overflow-hidden py-6 px-6 md:px-12 lg:px-40 2xl:px-64 transition-all duration-300">
+        <div className="absolute inset-0 flex h-full w-full overflow-hidden py-6 px-6 md:px-12 lg:px-40 2xl:px-64 transition-all duration-300 pb-32">
           <Conversations messages={conversation?.messages || []} isLoading={isLoading} />
         </div>
         <div className="absolute inset-0 flex flex-col flex-grow h-full w-full overflow-hidden" style={{ left: '100%' }}>
