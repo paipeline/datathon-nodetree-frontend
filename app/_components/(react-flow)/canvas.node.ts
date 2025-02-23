@@ -4,7 +4,7 @@ import AiResponse from "./ai-response";
 export interface Node {
   id: string;                 // 节点唯一标识
   type: string;               // 节点类型，例如 "question" | "answer" | "reasoning"
-  content: string;            // 节点主要内容
+  content?: string;            // 节点主要内容
   metadata?: any;             // 节点元数据，存储额外信息（时间戳、来源等）
   parentNodeId?: string;      // 父节点ID
   childrenNodeIds?: string[]; // 子节点ID

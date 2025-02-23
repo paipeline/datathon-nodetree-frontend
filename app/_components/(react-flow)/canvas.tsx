@@ -8,12 +8,13 @@ import {
   useEdgesState,
   addEdge,
   ReactFlowProvider,
+  BackgroundVariant
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { v4 as uuidv4 } from 'uuid';
- 
 import { initialNodes, initialEdges, nodeTypes } from './canvas.node';
- 
+import {handleAddNode} from './handleAddNode';
+
 export default function Canvas() {
   const [customNodes, setCustomNodes, onCustomNodesChange] = useNodesState(initialNodes);
   const [customEdges, setCustomEdges, onCustomEdgesChange] = useEdgesState(initialEdges);
@@ -37,9 +38,19 @@ export default function Canvas() {
         >
           <Controls />
           <MiniMap />
-          <Background variant="dots" gap={12} size={1} />
+          <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
         </ReactFlow>
       </div>
+      <button 
+        className="absolute top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded shadow-md hover:bg-blue-600"
+        onClick={() => {
+          console.log('Button clicked');
+          handleAddNode(setCustomNodes as any);
+        }}
+      >
+        Add Node
+      </button>
     </ReactFlowProvider>
+    
   );
 }
