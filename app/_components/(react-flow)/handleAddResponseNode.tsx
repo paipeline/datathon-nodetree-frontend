@@ -17,7 +17,7 @@ export const handleAddResponseNode = (
     solution: string
 ) => {
     if (title === undefined || solution === undefined) {
-        console.log("title 或 solution 未定义 —— 来自 handleAddResponseNode");
+        // console.log("title 或 solution 未定义 —— 来自 handleAddResponseNode");
         return;
     }
 
@@ -29,7 +29,7 @@ export const handleAddResponseNode = (
         }
 
         if (!userInputNodes || userInputNodes.length === 0) {
-            console.log("未找到 userInput 类型节点，无法定位父节点");
+            // console.log("未找到 userInput 类型节点，无法定位父节点");
             return prevNodes;
         }
 
@@ -50,28 +50,6 @@ export const handleAddResponseNode = (
                 solution
             }
         };
-
-        // setEdges((prevEdges: Edge[]): Edge[] => {
-        //     prevEdges.push({ id: uuidv4(), source: lastUserInputNode.id, target: newNode.id, animated: true });
-        //     return [...prevEdges, new];
-        // });
-
-        // const newEdge: Edge = {
-        //     id: uuidv4(),
-        //     source: lastUserInputNode.id,
-        //     target: newNode.id,
-        //     animated: true
-        // };
-        
-
-        // setTimeout(() => {
-        //     edgesStore.push({
-        //         id: uuidv4(),
-        //         source: lastUserInputNode.id,
-        //         target: newNode.id,
-        //         animated: true
-        //     } as Edge);
-        // }, 1000)
 
         setTimeout(() => {
             setEdges((prevEdges: Edge[]): Edge[] => {
