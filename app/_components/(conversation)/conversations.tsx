@@ -9,12 +9,15 @@ import "@/styles/fade-in.css";
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
+import { cn } from "@/lib/utils";
+import { Conversation } from "@/app/_contexts/ConversationProvider";
 
 const thinkingMessages = ["Thinking...", "Processing...", "Please wait...", "Loading...", "Analyzing...", "Generating..."];
 
-const Conversations = ({ messages, isLoading }: { 
+const Conversations = ({ messages, isLoading, conversation }: { 
   messages: Array<{ role: 'user' | 'assistant'; content: string }>, 
-  isLoading: boolean 
+  isLoading: boolean,
+  conversation: any
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [displayedTexts, setDisplayedTexts] = useState<{ [key: number]: string }>({});
@@ -146,12 +149,12 @@ const Conversations = ({ messages, isLoading }: {
 
   return (
     <div ref={containerRef} className="overflow-y-auto h-full w-full">
-      <div className="fade-in flex items-center justify-start gap-2 mb-2">
+      {/* <div className={cn("fade-in flex items-center justify-start gap-2 mb-2", conversation?.messages.length === 0 ? "opacity-0" : "opacity-100")}>
         <Bot className="w-6 h-6" />
         <p className="text-sm bg-gray-200 rounded-2xl p-2">
           Hello, what can I help you with?
         </p>
-      </div>
+      </div> */}
       {messages.map((message, index) => (
         <div key={index}>
           {message.role === 'user' ? (

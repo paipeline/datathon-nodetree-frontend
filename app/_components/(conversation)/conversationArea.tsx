@@ -160,6 +160,23 @@ const ConversationArea = ({
       </header>
 
       <div
+        className={cn(
+          "flex flex-col justify-center items-center p-2 pt-0 absolute bottom-[55%] left-0 w-full transition-all duration-300",
+          conversation?.messages.length === 0 ? "opacity-100" : "opacity-0"
+        )}
+        style={{
+          transform: caroselIndex === 0 ? 'translateX(0)' : 'translateX(-100%)'
+        }}
+      >
+        <h1 className="text-blue-600 text-3xl font-extrabold italic justify-start">
+          Welcome to the AI Conversation
+        </h1>
+        <p className="text-gray-500 text-base font-light">
+          Start by typing a message in the input bar. OR click the <strong className="text-blue-600 font-extrabold"><i><u>"Switch"</u></i></strong> button to switch to the canvas mode. 
+        </p>
+      </div>
+
+      <div
         className={`flex flex-grow relative`}
         style={{
           transition: 'transform 0.6s',
@@ -167,18 +184,18 @@ const ConversationArea = ({
         }}
       >
         <div className="absolute inset-0 flex h-full w-full overflow-hidden py-6 px-6 md:px-12 lg:px-40 2xl:px-64 transition-all duration-300 pb-32">
-          <Conversations messages={conversation?.messages || []} isLoading={isLoading} />
+          <Conversations messages={conversation?.messages || []} isLoading={isLoading} conversation={conversation}/>
         </div>
         <div className="absolute inset-0 flex flex-col flex-grow h-full w-full overflow-hidden" style={{ left: '100%' }}>
           <Canvas />
         </div>
       </div>
       <div
-        className="flex justify-center p-2 pt-0 absolute bottom-0 left-0 w-full"
-        style={{
-          transition: 'transform 1s cubic-bezier(0.25, 0.8, 0.25, 1)',
-          transform: caroselIndex === 0 ? 'translateY(0)' : 'translateY(100%)',
-        }}
+        className={cn(
+          "flex justify-center p-2 pt-0 absolute bottom-[40%] left-0 w-full transition-all duration-300",
+          conversation?.messages.length === 0 ? "translate-y-0" : "translate-y-[40vh]",
+          caroselIndex === 0 ? "translate-x-0" : "translate-x-[-100%]"
+        )}
       >
         <InputBar onSubmit={handleSubmit} setIsLoading={setIsLoading} isLoading={isLoading} />
       </div>
