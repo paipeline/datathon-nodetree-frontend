@@ -160,8 +160,12 @@ const AiResponse = ({
               if (jsonData) {
                 const parsedData = JSON.parse(jsonData);
                 console.log("Parsed data:", parsedData);
+
+                // get the id of the node
+                const nodeId = parsedData.id;
+
                 // render ai-response node
-                handleAddResponseNode(setCustomNodes, setCustomEdges, parsedData.title, parsedData.solution, id, positionAbsoluteX, positionAbsoluteY);
+                handleAddResponseNode(setCustomNodes, setCustomEdges, parsedData.title, parsedData.solution, nodeId, positionAbsoluteX, positionAbsoluteY);
               }
             } catch (e) {
               console.error('Error parsing event data:', e);
