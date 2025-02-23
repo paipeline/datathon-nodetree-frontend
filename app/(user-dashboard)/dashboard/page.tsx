@@ -82,7 +82,7 @@ export default function Dashboard() {
                         <img src="/images/TestProfilePicture.JPG" alt="Profile Picture" className="w-full h-full object-cover rounded-full" />
                       </div>
                     </div>
-                    <div className="flex gap-2 mb-2 mt-4 fade-in justify-end mb-1">
+                    <div className="flex gap-2 mb-2 mt-4 fade-in justify-end">
                       <div className="text-sm bg-gray-200 rounded-2xl p-2 max-w-[70%] break-words">
                         <p>I want to know about the Linear regression model</p>
                       </div>
