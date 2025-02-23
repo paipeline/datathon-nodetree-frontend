@@ -34,7 +34,7 @@ export default function Canvas() {
           onNodesChange={onCustomNodesChange}
           onEdgesChange={onCustomEdgesChange}
           onConnect={onConnect}
-          fitView
+          // fitView
           nodeTypes={nodeTypes as any}
         >
           <Controls />

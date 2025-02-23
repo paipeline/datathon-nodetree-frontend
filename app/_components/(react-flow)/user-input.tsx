@@ -8,8 +8,13 @@ import { toast } from "sonner";
 import "@/styles/fade-in.css";
 import { Handle, Position } from '@xyflow/react';
 
-function UserInput({ data, onSubmit, setIsLoading }: { data: any, onSubmit: (input: string) => void, setIsLoading: (loading: boolean) => void }) {
+interface UserInputProps {
+  data: any;
+  onSubmit: (input: string) => void;
+  setIsLoading: (loading: boolean) => void;
+}
 
+const UserInput: React.FC<UserInputProps> = ({ data, onSubmit, setIsLoading }) => {
   const [textareaHeight, setTextareaHeight] = useState<number>(0);
   const [inputValue, setInputValue] = useState<string>("");
   const [adjustCount, setAdjustCount] = useState(0);
@@ -50,35 +55,88 @@ function UserInput({ data, onSubmit, setIsLoading }: { data: any, onSubmit: (inp
     setInputValue(event.target.value);
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (inputValue.trim() === "") {
-      toast.error("Please enter a message");
       return;
+    }
+    
+    console.log("inputValue", inputValue);
+
+    try {
+      const response = await fetch("http://localhost:8000/api/v1/round", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            "originalInput": "Create a web application that allows users to track their daily expenses and generate monthly reports.",
+            "followUpQuestion": "how to perform CRUD operations in Next.jres?",
+            "metadata": {
+              "language": "English"
+            },
+            "sessionId": null,
+            "traceId": null,
+            "contextNodes": null
+        }),
+      });
+
+      if (!response.ok) throw new Error("Request failed");
+
+      console.log("responsing");
+      console.log(response);
+
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { value, done } = await reader?.read() || {};
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        console.log("Stream chunk:", chunk);
+        const events = chunk.split('\n\n');
+
+        for (const event of events) {
+          if (event.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(event.slice(6));
+              console.log("data", data);
+              // 这里可以处理接收到的数据
+            } catch (e) {
+              console.error('Error parsing event data:', e);
+            }
+          }
+        }
+      }
+      
+
+    } catch (error) {
+      console.error("API error:", error);
+    } finally {
+      setIsLoading(false);
     }
 
     setIsLoading(true);
     onSubmit(inputValue);
-    setInputValue(""); // 触发useEffect中的高度调整
+    setInputValue("");
   };
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
-        e.preventDefault();
-        if (inputValue.trim() === "") {
-          // toast.error("Please enter a message");
-          return;
-        }
-        setIsLoading(true);
-        onSubmit(inputValue);
-        setInputValue("");
-      }
-    };
+  // useEffect(() => {
+  //   const handleKeyDown = (e: KeyboardEvent) => {
+  //     if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+  //       e.preventDefault();
+  //       if (inputValue.trim() === "") {
+  //         // toast.error("Please enter a message");
+  //         return;
+  //       }
+  //       // setIsLoading(true);
+  //       // onSubmit(inputValue);
+  //       // setInputValue("");
+  //     }
+  //   };
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [inputValue, onSubmit]);
+  //   document.addEventListener('keydown', handleKeyDown);
+  //   return () => document.removeEventListener('keydown', handleKeyDown);
+  // }, [inputValue, onSubmit]);
 
   return (
     <div
@@ -122,6 +180,6 @@ function UserInput({ data, onSubmit, setIsLoading }: { data: any, onSubmit: (inp
       </div>
     </div>
   );
-}
+};
 
 export default UserInput;
