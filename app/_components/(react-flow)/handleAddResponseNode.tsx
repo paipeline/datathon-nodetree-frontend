@@ -15,7 +15,8 @@ export const handleAddResponseNode = (
     solution: string,
     selectedNodeId: string,
     positionAbsoluteX: number,
-    positionAbsoluteY: number
+    positionAbsoluteY: number,
+    nodeId_toset: string
 ) => {
     if (!title || !solution) {
         return;
@@ -44,7 +45,7 @@ export const handleAddResponseNode = (
         const newY = positionAbsoluteY + 300;
 
         const newNode: Node = {
-            id: uuidv4(),
+            id: nodeId_toset,
             type: "aiResponse",
             position: { x: newX, y: newY },
             data: {

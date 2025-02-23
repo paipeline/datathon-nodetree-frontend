@@ -114,7 +114,7 @@ const AiResponse = ({
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:8000/api/v1/round", {
+      const response = await fetch("http://localhost:8000/api/v2/round_context", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -125,7 +125,8 @@ const AiResponse = ({
           },
           sessionId: null,
           traceId: null,
-          contextNodes: null
+          contextNodes: null,
+          priority: 0,
         }),
       });
 
@@ -162,10 +163,12 @@ const AiResponse = ({
                 console.log("Parsed data:", parsedData);
 
                 // get the id of the node
-                const nodeId = parsedData.id;
+                const nodeId_toset = parsedData.id;
+
+                console.log("nodeId:", nodeId_toset);
 
                 // render ai-response node
-                handleAddResponseNode(setCustomNodes, setCustomEdges, parsedData.title, parsedData.solution, nodeId, positionAbsoluteX, positionAbsoluteY);
+                handleAddResponseNode(setCustomNodes, setCustomEdges, parsedData.title, parsedData.solution, id, positionAbsoluteX, positionAbsoluteY, nodeId_toset);
               }
             } catch (e) {
               console.error('Error parsing event data:', e);
