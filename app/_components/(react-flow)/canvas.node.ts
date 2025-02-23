@@ -2,7 +2,8 @@ import UserInput from "./user-input";
 import AiResponse from "./ai-response";
 
 export interface Node {
-  id: string;                 // 节点唯一标识
+  id: string;                // 节点唯一标识
+  color?: string;             // 颜色调节
   type: string;               // 节点类型，例如 "question" | "answer" | "reasoning"
   content?: string;            // 节点主要内容
   metadata?: any;             // 节点元数据，存储额外信息（时间戳、来源等）

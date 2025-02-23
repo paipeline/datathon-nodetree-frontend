@@ -135,3 +135,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+.react-flow__pane {
+  touch-action: none;
+}
+textarea {
+  cursor: default;
+}
+textarea:focus {
+  cursor: text;
+}
