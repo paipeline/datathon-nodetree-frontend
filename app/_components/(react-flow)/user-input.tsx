@@ -89,7 +89,7 @@ export default function UserInput({
                 const parsedData = JSON.parse(jsonData);
                 console.log("Parsed data:", parsedData);
                 // 渲染 ai-response node
-                handleAddResponseNode(setCustomNodes as any, "test - from user input");
+                handleAddResponseNode(setCustomNodes as any, jsonData);
               }
             } catch (e) {
               console.error('Error parsing event data:', e);
