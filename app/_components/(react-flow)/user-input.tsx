@@ -25,68 +25,70 @@ export const UserInput = ({ setCustomNodes, setCustomEdges }: { setCustomNodes: 
 
     setIsLoading(true);
 
-    // try {
-    //   const response = await fetch("http://localhost:8000/api/v1/round", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({
-    //       originalInput: inputValue,
-    //       followUpQuestion: "",
-    //       metadata: {
-    //         language: "English"
-    //       },
-    //       sessionId: null,
-    //       traceId: null,
-    //       contextNodes: null
-    //     }),
-    //   });
+    try {
+      const response = await fetch("http://localhost:8000/api/v1/round", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          originalInput: inputValue,
+          followUpQuestion: "",
+          metadata: {
+            language: "English"
+          },
+          sessionId: null,
+          traceId: null,
+          contextNodes: null
+        }),
+      });
 
-    //   if (!response.ok) throw new Error("Request failed");
+      if (!response.ok) throw new Error("Request failed");
 
-    //   console.log("responsing");
-    //   console.log(response);
+      console.log("responsing");
+      console.log(response);
 
-    //   const reader = response.body?.getReader();
-    //   const decoder = new TextDecoder();
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
 
-    //   while (true) {
-    //     const { value, done } = await reader?.read() || {};
-    //     if (done) break;
+      while (true) {
+        const { value, done } = await reader?.read() || {};
+        if (done) break;
 
-    //     const chunk = decoder.decode(value);
-    //     console.log("Stream chunk:", chunk);
+        const chunk = decoder.decode(value);
+        console.log("Stream chunk:", chunk);
 
-    //     // split by \n
-    //     const lines = chunk.split('\n');
+        // split by \n
+        const lines = chunk.split('\n');
 
-    //     for (const line of lines) {
-    //       const trimmedLine = line.trim();
+        for (const line of lines) {
+          const trimmedLine = line.trim();
 
-    //       // console.log("Line content:", trimmedLine);
+          // console.log("Line content:", trimmedLine);
 
-    //       // check if it starts with data:
-    //       if (trimmedLine.startsWith('data: ')) {
-    //         try {
-    //           // remove data: and trim
-    //           const jsonData = trimmedLine.slice(6).trim();
-    //           if (jsonData) {
-    //             const parsedData = JSON.parse(jsonData);
-    //             console.log("Parsed data:", parsedData);
-    //             // render ai-response node
-    //             handleAddResponseNode(setCustomNodes as any, setCustomEdges as any, parsedData.title, parsedData.solution);
-    //           }
-    //         } catch (e) {
-    //           console.error('Error parsing event data:', e);
-    //         }
-    //       }
-    //     }
-    //   }
+          // check if it starts with data:
+          if (trimmedLine.startsWith('data: ')) {
+            try {
+              // remove data: and trim
+              const jsonData = trimmedLine.slice(6).trim();
+              if (jsonData) {
+                const parsedData = JSON.parse(jsonData);
+                console.log("Parsed data:", parsedData);
+                // render ai-response node
+                handleAddResponseNode(setCustomNodes as any, setCustomEdges as any, parsedData.title, parsedData.solution);
+              }
+            } catch (e) {
+              console.error('Error parsing event data:', e);
+            }
+          }
+        }
 
-    // } catch (error) {
-    //   console.error("API error:", error);
-    // } finally {
-    //   setIsLoading(false);
-    // }
+        setIsLoading(false);
+      }
+
+    } catch (error) {
+      console.error("API error:", error);
+    } finally {
+      // setIsLoading(false);  redundant  - marked by Shenwei
+    }
   };
 
   return (

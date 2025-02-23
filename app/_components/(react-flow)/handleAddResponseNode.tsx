@@ -56,7 +56,7 @@ export const handleAddResponseNode = (
                 prevEdges.push({ id: uuidv4(), source: lastUserInputNode.id, target: newNode.id, animated: true });
                 return [...prevEdges];
             });
-        }, 5000)
+        }, 500)
         
         console.log("edgesStore", edgesStore);
 
