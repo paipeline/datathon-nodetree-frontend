@@ -8,7 +8,9 @@ import {
   useEdgesState,
   addEdge,
   ReactFlowProvider,
-  BackgroundVariant
+  BackgroundVariant,
+  Node,
+  Edge
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { v4 as uuidv4 } from "uuid";
@@ -34,7 +36,7 @@ export default function Canvas() {
   };
 
   const handleAddResponse = () => {
-    handleAddResponseNode(setCustomNodes, "title", "solution");
+    handleAddResponseNode(setCustomNodes, setCustomEdges, "title", "solution");
   };
 
   useEffect(() => {

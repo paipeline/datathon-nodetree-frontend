@@ -15,6 +15,7 @@ import { useNodeColor } from "./handleDropDownMenu";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { DropdownMenuRadioGroup } from "@radix-ui/react-dropdown-menu";
+import "@/styles/fade-in.css";
 
 const AiResponse = ({ data: { title, solution } }: { data: { title: string, solution: string } }) => {
   const [textareaHeight, setTextareaHeight] = useState<number>(0);
@@ -92,7 +93,7 @@ const AiResponse = ({ data: { title, solution } }: { data: { title: string, solu
 
   return (
     <div
-      className="relative"
+      className="relative fade-in-1"
       style={{
         borderColor: "oklch(0.871 0.15 154.449)",
         padding: 10,

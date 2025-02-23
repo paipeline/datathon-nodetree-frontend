@@ -7,7 +7,7 @@ import "@/styles/fade-in.css";
 import { Handle, Position } from '@xyflow/react';
 import { handleAddResponseNode } from "./handleAddResponseNode";
 
-export const UserInput = ({ setCustomNodes }: { setCustomNodes: (nodes: any) => void }) => {
+export const UserInput = ({ setCustomNodes, setCustomEdges }: { setCustomNodes: (nodes: any) => void, setCustomEdges: (edges: any) => void }) => {
 
   const [textareaHeight, setTextareaHeight] = useState<number>(0);
   const [inputValue, setInputValue] = useState<string>("");
@@ -72,7 +72,7 @@ export const UserInput = ({ setCustomNodes }: { setCustomNodes: (nodes: any) => 
                 const parsedData = JSON.parse(jsonData);
                 console.log("Parsed data:", parsedData);
                 // 渲染 ai-response node
-                handleAddResponseNode(setCustomNodes as any, parsedData.title, parsedData.solution);
+                handleAddResponseNode(setCustomNodes as any, setCustomEdges as any, parsedData.title, parsedData.solution);
               }
             } catch (e) {
               console.error('Error parsing event data:', e);
@@ -133,3 +133,5 @@ export const UserInput = ({ setCustomNodes }: { setCustomNodes: (nodes: any) => 
     </div>
   );
 }
+
+export default UserInput;

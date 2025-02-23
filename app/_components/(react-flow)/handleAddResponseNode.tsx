@@ -1,4 +1,4 @@
-import { Node } from "@xyflow/react";
+import { Node, Edge } from "@xyflow/react";
 import AiResponse from "./ai-response";
 import { v4 as uuidv4 } from "uuid";
 
@@ -6,9 +6,9 @@ export const nodeTypes = {
     aiResponse: AiResponse
 };
 
-// 处理添加节点
 export const handleAddResponseNode = (
     setNodes: React.Dispatch<React.SetStateAction<Node[]>>,
+    setEdges: React.Dispatch<React.SetStateAction<Edge[]>>,
     title: string,
     solution: string
 ) => {
@@ -18,7 +18,6 @@ export const handleAddResponseNode = (
     }
 
     setNodes((prevNodes: Node[]): Node[] => {
-        // 查找所有的 userInput 节点
         const userInputNodes = prevNodes.filter((node) => node.type === "userInput");
 
         if (!userInputNodes || userInputNodes.length === 0) {
@@ -43,6 +42,10 @@ export const handleAddResponseNode = (
                 solution
             }
         };
+
+        setEdges((prevEdges: Edge[]): Edge[] => {
+            return [...prevEdges, { id: uuidv4(), source: lastUserInputNode.id, target: newNode.id, animated: true }];
+        });
 
         console.log("新增 AI 节点:", newNode);
         return [...prevNodes, newNode];
