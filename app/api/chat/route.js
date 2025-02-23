@@ -1,3 +1,6 @@
+// This is the temporary api for the chatbot, it will be replaced by the new api by the real backend api
+// obsolete
+
 import OpenAI from 'openai';
 
 const openai = new OpenAI({

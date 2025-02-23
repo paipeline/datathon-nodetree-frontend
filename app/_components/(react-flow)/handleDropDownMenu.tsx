@@ -1,6 +1,5 @@
 import { Node, useReactFlow } from "@xyflow/react";
 
-// 创建自定义 hook
 export const useNodeColor = () => {
   const { setNodes, getNodes } = useReactFlow();
 

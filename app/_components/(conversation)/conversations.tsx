@@ -10,25 +10,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 
-// Add these styles to your global CSS file (app/globals.css)
-// If you don't have it, create it in the app directory:
-/*
-.prose {
-  max-width: none;
-}
-.prose-sm {
-  font-size: 0.875rem;
-  line-height: 1.5;
-}
-.prose-pre\:bg-transparent pre {
-  background-color: transparent;
-}
-.prose-pre\:p-0 pre {
-  padding: 0;
-}
-*/
-
-const thinkingMessages = ["Thinking...", "Processing...", "Please wait...", "Loading...", "Analyzing...", "Generating...", "请主人稍等一下喵！"];
+const thinkingMessages = ["Thinking...", "Processing...", "Please wait...", "Loading...", "Analyzing...", "Generating..."];
 
 const Conversations = ({ messages, isLoading }: { 
   messages: Array<{ role: 'user' | 'assistant'; content: string }>, 
@@ -167,7 +149,7 @@ const Conversations = ({ messages, isLoading }: {
       <div className="fade-in flex items-center justify-start gap-2 mb-2">
         <Bot className="w-6 h-6" />
         <p className="text-sm bg-gray-200 rounded-2xl p-2">
-          您好有什么可以帮您的吗？
+          Hello, what can I help you with?
         </p>
       </div>
       {messages.map((message, index) => (

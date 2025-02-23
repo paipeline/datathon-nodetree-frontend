@@ -1,7 +1,6 @@
 import { Node } from "@xyflow/react";
 import { UserInput } from "./user-input";
 import { v4 as uuidv4 } from "uuid";
-import { initialNodes } from "./canvas.node";
 
 export const nodeTypes = {
     userInput: UserInput,
