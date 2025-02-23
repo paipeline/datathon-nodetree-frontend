@@ -78,7 +78,7 @@ const ConversationArea = ({
 
   const handleTitleChange = (newTitle: string) => {
     if (!conversation) return;
-    const updatedConversation = { ...conversation, title: newTitle || "New Chat" };
+    const updatedConversation = { ...conversation, title: newTitle };
     setConversation(updatedConversation);
     updateConversation(updatedConversation);
   };
@@ -114,8 +114,19 @@ const ConversationArea = ({
         >
           <input
             type="text"
-            value={conversation?.title || "New Chat"}
+            value={conversation?.title ?? ""}
             onChange={(e) => handleTitleChange(e.target.value)}
+            onBlur={() => {
+              if (conversation && conversation.title.trim() === "") {
+                handleTitleChange("Untitled Chat");
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.currentTarget.blur(); 
+              }
+            }}
+            placeholder="Enter a title..."
             className="w-full h-full bg-transparent outline-none text-md font-medium text-gray-600 transition-all duration-300"
           />
         </div>

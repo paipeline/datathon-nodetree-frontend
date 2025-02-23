@@ -29,7 +29,7 @@ const AiResponse = ({ data: { title, solution } }: { data: { title: string, solu
         color: "#004d40",
         fontFamily: "Arial, sans-serif",
         fontSize: "14px",
-        width: "350px",
+        width: "450px",
         backdropFilter: "blur(20px)",
       }}
     >
@@ -74,7 +74,7 @@ const AiResponse = ({ data: { title, solution } }: { data: { title: string, solu
           a: ({ node, ...props }) => <a target="_blank" rel="noopener noreferrer" {...props} />,
         }}
       >
-        {solution}
+        {`Title: ${title}\n\nSolution: ${solution}`}
       </ReactMarkdown>
     </div>
   );
