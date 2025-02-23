@@ -15,21 +15,34 @@ export const handleAddResponseNode = (
     solution: string,
     selectedNodeId: string,
     positionAbsoluteX: number,
-    positionAbsoluteY: number,
-    type: string
+    positionAbsoluteY: number
 ) => {
-    if (title === undefined || solution === undefined) {
-        // console.log("title 或 solution 未定义 —— 来自 handleAddResponseNode");
+    if (!title || !solution) {
         return;
     }
 
-    console.log("positionAbsoluteX", positionAbsoluteX);
-    console.log("positionAbsoluteY", positionAbsoluteY);
+    setNodes((prevNodes) => {
 
-    setNodes((prevNodes: Node[]): Node[] => {
+        // this part is written by chatgpt, I cited it
+        const baseNode = prevNodes.find((node) => node.id === selectedNodeId);
+        if (!baseNode) {
+            return prevNodes;
+        }
 
-        const newX = prevNodes[prevNodes.length - 1].id === selectedNodeId ? positionAbsoluteX - 1000 : prevNodes[prevNodes.length - 1].position.x + 500;
+        const baseNodeChildren = prevNodes.filter((node) => {
+            return node.data?.parentId === selectedNodeId;
+        });
+
+        let newX = 0;
+        if (baseNodeChildren.length === 0) {
+            newX = baseNode.position.x - 1000;
+        } else {
+            const lastChild = baseNodeChildren[baseNodeChildren.length - 1];
+            newX = lastChild.position.x + 500;
+        }
+
         const newY = positionAbsoluteY + 300;
+        //
 
         const newNode: Node = {
             id: uuidv4(),
@@ -37,21 +50,26 @@ export const handleAddResponseNode = (
             position: { x: newX, y: newY },
             data: {
                 title,
-                solution
+                solution,
+                parentId: selectedNodeId
             },
             selected: false
         };
 
         setTimeout(() => {
-            setEdges((prevEdges: Edge[]): Edge[] => {
-                prevEdges.push({ id: uuidv4(), source: selectedNodeId, target: newNode.id, animated: true });
-                return [...prevEdges];
-            });
-        }, 500)
-        
+            setEdges((prevEdges: Edge[]) => ([
+                ...prevEdges,
+                {
+                    id: uuidv4(),
+                    source: selectedNodeId,
+                    target: newNode.id,
+                    animated: true
+                }
+            ]));
+        }, 500);
+
         return [...prevNodes, newNode];
     });
-
 };
 
 export default handleAddResponseNode;

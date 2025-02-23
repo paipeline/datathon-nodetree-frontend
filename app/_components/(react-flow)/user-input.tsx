@@ -112,7 +112,7 @@ export function UserInput(nodeProps: any) {
                 const parsedData = JSON.parse(jsonData);
                 console.log("Parsed data:", parsedData);
                 // render ai-response node
-                handleAddResponseNode(setCustomNodes, setCustomEdges, parsedData.title, parsedData.solution, id, positionAbsoluteX, positionAbsoluteY, rest.type);
+                handleAddResponseNode(setCustomNodes, setCustomEdges, parsedData.title, parsedData.solution, id, positionAbsoluteX, positionAbsoluteY);
               }
             } catch (e) {
               console.error('Error parsing event data:', e);
