@@ -82,12 +82,12 @@ export default function Canvas() {
           >
             Add Input Node
           </button>
-          {/* <button
+          <button
             onClick={handleAddResponse}
             className="px-4 py-2 bg-green-500 text-white rounded"
           >
             Add AI Response Node
-          </button> */}
+          </button>
         </div>
     </ReactFlowProvider>
   );
