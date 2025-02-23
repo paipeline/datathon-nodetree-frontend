@@ -163,13 +163,13 @@ const AiResponse = ({ data: { title, solution } }: { data: { title: string, solu
           a: ({ node, ...props }) => <a target="_blank" rel="noopener noreferrer" {...props} />,
         }}
       >
-        {`Title: ${title}\n\nSolution: ${solution}`}
+        {`Title: <b>${title}</b>\n\nSolution: ${solution}`}
       </ReactMarkdown>
       <div className="text-sm text-gray-500 mb-2 italic pt-2">{"Follow-up questions..."}</div>
       <div className="relative flex items-center">
         <style jsx global>{`
         textarea::-webkit-scrollbar {
-          width: 6px;  /* 滚动条宽度 */
+          width: 6px; 
           background-color: transparent;
         }
         

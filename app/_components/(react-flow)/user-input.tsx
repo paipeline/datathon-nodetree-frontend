@@ -32,14 +32,14 @@ export const UserInput = ({ setCustomNodes, setCustomEdges }: { setCustomNodes: 
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            "originalInput": "Create a web application that allows users to track their daily expenses and generate monthly reports.",
-            "followUpQuestion": "how to perform CRUD operations in Next.jres?",
-            "metadata": {
-              "language": "English"
-            },
-            "sessionId": null,
-            "traceId": null,
-            "contextNodes": null
+          originalInput: inputValue,
+          followUpQuestion: "",
+          metadata: {
+            language: "English"
+          },
+          sessionId: null,
+          traceId: null,
+          contextNodes: null
         }),
       });
 
