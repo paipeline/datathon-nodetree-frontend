@@ -6,6 +6,9 @@ import { toast } from "sonner";
 import "@/styles/fade-in.css";
 import { Handle, Position } from '@xyflow/react';
 import { handleAddResponseNode } from "./handleAddResponseNode";
+import { handleAddResponseEdges } from "./handleAddResponseEdges";
+
+
 
 export const UserInput = ({ setCustomNodes, setCustomEdges }: { setCustomNodes: (nodes: any) => void, setCustomEdges: (edges: any) => void }) => {
 
@@ -73,6 +76,7 @@ export const UserInput = ({ setCustomNodes, setCustomEdges }: { setCustomNodes: 
                 console.log("Parsed data:", parsedData);
                 // 渲染 ai-response node
                 handleAddResponseNode(setCustomNodes as any, setCustomEdges as any, parsedData.title, parsedData.solution);
+                // handleAddResponseEdges();
               }
             } catch (e) {
               console.error('Error parsing event data:', e);

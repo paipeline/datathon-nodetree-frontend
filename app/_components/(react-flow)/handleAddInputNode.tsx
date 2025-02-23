@@ -6,7 +6,7 @@ import { initialNodes } from "./canvas.node";
 export const nodeTypes = {
     userInput: UserInput,
   };
-// 处理添加节点
+
 export const handleAddInputNode = (setNodes: React.Dispatch<React.SetStateAction<Node[]>>) => {
   const newNode = {
     id: uuidv4(),

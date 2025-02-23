@@ -39,7 +39,7 @@ export const initialNodes: Node[] = [
   //   type: 'aiResponse',
   //   content: '',
   //   position: { x: 150, y: 150 },
-  //   data: { content: 'Shenwei' }
+  //   data: { label: "Shenwei", content: "Shenwei" }
   // },
   // {
   //   id: 'ai-response-node-2',

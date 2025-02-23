@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 interface FlowContextType {
   nodes: Node[];
+  edges: Edge[];
   addResponseNode: (content: string) => void;
   addResponseEdge: (source: string, target: string) => void;
   setNodes: React.Dispatch<React.SetStateAction<Node[]>>;
@@ -40,7 +41,7 @@ export function FlowProvider({ children }: { children: ReactNode }) {
   );
 
   return (
-    <FlowContext.Provider value={{ nodes, addResponseNode, addResponseEdge, setNodes, setEdges }}>
+    <FlowContext.Provider value={{ nodes, edges, addResponseNode, addResponseEdge, setNodes, setEdges }}>
       {children}
     </FlowContext.Provider>
   );
