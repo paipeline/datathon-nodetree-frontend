@@ -8,8 +8,8 @@ import { toast } from "sonner";
 import "@/styles/fade-in.css";
 import { Handle, Position } from '@xyflow/react';
 import { handleAddResponseNode } from "./handleAddResponseNode";
-import { useNodesState } from "@xyflow/react";
-import { initialNodes } from "./canvas.node";
+import { useNodesState, useEdgesState } from "@xyflow/react";
+import { initialNodes, initialEdges } from "./canvas.node";
 
 // interface UserInputProps {
 //   data: any;
@@ -25,6 +25,7 @@ const UserInput = () => {
   // const [onSubmit, setOnSubmit] = useState<((input: string) => void) | null>(null);
 
   const [customNodes, setCustomNodes, onCustomNodesChange] = useNodesState(initialNodes);
+  const [customEdges, setCustomEdges, onCustomEdgesChange] = useEdgesState(initialEdges);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -89,6 +90,10 @@ const UserInput = () => {
       console.log("responsing");
       console.log(response);
 
+      handleAddResponseNode(setCustomNodes as any, "test - from user input");
+      handleAddResponseNode(setCustomNodes as any, "test - from user input");
+      handleAddResponseNode(setCustomNodes as any, "test - from user input");
+
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
 
@@ -102,9 +107,9 @@ const UserInput = () => {
 
         for (const event of events) {
           if (event.startsWith('data: ')) {
-            try {
+            try {   
               const data = JSON.parse(event.slice(6));
-              console.log("data", data);
+              console.log("dasfdsfdsfsdfsda", data);
               // rendering the ai-response node
               handleAddResponseNode(setCustomNodes as any, "test - from user input");
               console.log("customNodes", customNodes);
@@ -181,6 +186,13 @@ const UserInput = () => {
             onClick={handleSubmit}
             >
           <ArrowUp className="w-4 h-4 text-white" />
+        </div>
+        <div>
+          <button onClick={() => {
+            handleAddResponseNode(setCustomNodes as any, "test - from user input");
+          }}>
+            click me
+          </button>
         </div>
       </div>
     </div>
