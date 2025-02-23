@@ -123,7 +123,7 @@ const ConversationArea = ({
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                e.currentTarget.blur(); 
+                e.currentTarget.blur();
               }
             }}
             placeholder="Enter a title..."
@@ -173,9 +173,8 @@ const ConversationArea = ({
           <Canvas />
         </div>
       </div>
-
       <div
-        className="flex justify-center p-2 pt-0"
+        className="flex justify-center p-2 pt-0 absolute bottom-0 left-0 w-full"
         style={{
           transition: 'transform 1s cubic-bezier(0.25, 0.8, 0.25, 1)',
           transform: caroselIndex === 0 ? 'translateY(0)' : 'translateY(100%)',
