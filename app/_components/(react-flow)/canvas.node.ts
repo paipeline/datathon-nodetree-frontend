@@ -20,6 +20,7 @@ export interface Node {
     content?: string;
     [key: string]: unknown;
   };
+  selected?: boolean;
 }
 
 export const initialNodes: Node[] = [
@@ -31,7 +32,8 @@ export const initialNodes: Node[] = [
       x: window.innerWidth / 2 - 150,
       y: window.innerHeight / 2 - 350
      },
-    data: { label: "", content: "" }
+    data: { label: "", content: "" },
+    selected: false
   },
   // fake nodes for testing
 
@@ -67,7 +69,7 @@ export const initialNodes: Node[] = [
 
 export const initialEdges: Edge[] = [
   // fake edges for testing
-  
+
   // { id: 'user-input-node-1-ai-response-node-1', source: 'user-input-node-1', target: 'ai-response-node-1', animated: true },
   // { id: 'user-input-node-2-ai-response-node-2', source: 'user-input-node-1', target: 'ai-response-node-2', animated: true },
   // { id: 'user-input-node-3-ai-response-node-3', source: 'user-input-node-1', target: 'ai-response-node-3', animated: true },

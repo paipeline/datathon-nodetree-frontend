@@ -8,13 +8,25 @@ import "@/styles/fade-in.css";
 import "@/app/_components/(conversation)/inputbar.css";
 import { cn } from "@/lib/utils";
 
-export const UserInput = ({ setCustomNodes, setCustomEdges }: { setCustomNodes: (nodes: any) => void, setCustomEdges: (edges: any) => void }) => {
+export const UserInput = ({
+  id,                // 这里就是节点的 id
+  data,
+  setCustomNodes,
+  setCustomEdges,
+  customNodes
+}: {
+  id: string;        // 这里声明一下类型
+  data?: any;
+  setCustomNodes: (nodes: any) => void; 
+  setCustomEdges: (edges: any) => void;
+  customNodes: any[];
+}) => {
   const [textareaHeight, setTextareaHeight] = useState<number>(0);
   const [inputValue, setInputValue] = useState<string>("");
   const [adjustCount, setAdjustCount] = useState(0);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const adjustTextareaHeight = useCallback(() => {
@@ -50,6 +62,9 @@ export const UserInput = ({ setCustomNodes, setCustomEdges }: { setCustomNodes: 
     if (inputValue.trim() === "") {
       return;
     }
+
+    // 这里可以直接使用当前节点的 id
+    console.log("当前 UserInput 节点的 id:", id);
 
     setIsLoading(true);
 
@@ -101,30 +116,28 @@ export const UserInput = ({ setCustomNodes, setCustomEdges }: { setCustomNodes: 
                 const parsedData = JSON.parse(jsonData);
                 console.log("Parsed data:", parsedData);
                 // render ai-response node
-                handleAddResponseNode(setCustomNodes as any, setCustomEdges as any, parsedData.title, parsedData.solution);
+                handleAddResponseNode(setCustomNodes as any, setCustomEdges as any, parsedData.title, parsedData.solution, id);
               }
             } catch (e) {
               console.error('Error parsing event data:', e);
             }
           }
         }
-
         setIsLoading(false);
       }
-
     } catch (error) {
       console.error("API error:", error);
-    } finally {
-      // setIsLoading(false);  redundant  - marked by Shenwei
     }
   };
 
   return (
     <div className="fade-in flex items-center justify-start w-[500px] h-full px-4 py-4 pt-0 bg-transparent transition-all duration-300">
-      <div className={cn(
-        "relative flex flex-col items-center justify-start h-full backdrop-blur-3xl bg-[rgba(243, 244, 246, 0.7)] border border-[#e8eaeb] bg-[#F5F5F5] rounded-2xl px-4 py-2 w-full overflow-hidden",
-        isLoading && "inputbar-loading"
-      )}>
+      <div
+        className={cn(
+          "relative flex flex-col items-center justify-start h-full backdrop-blur-3xl bg-[rgba(243, 244, 246, 0.7)] border border-[#e8eaeb] bg-[#F5F5F5] rounded-2xl px-4 py-2 w-full overflow-hidden",
+          isLoading && "inputbar-loading"
+        )}
+      >
         <div className="absolute inset-0 bg-white/70 backdrop-blur-sm z-[1]" />
         <div
           className={cn(

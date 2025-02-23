@@ -33,8 +33,15 @@ export default function Canvas() {
     handleAddInputNode(setCustomNodes);
   };
 
+
+  // todo: delete this function when deploy
   const handleAddResponse = () => {
-    handleAddResponseNode(setCustomNodes, setCustomEdges, "title", "solution");
+    const selectedNode = customNodes.find(node => node.selected);
+    if (selectedNode) {
+      handleAddResponseNode(setCustomNodes, setCustomEdges, "title", "solution", selectedNode.id);
+    } else {
+      console.log("没有选中的节点");
+    }
   };
 
   useEffect(() => {

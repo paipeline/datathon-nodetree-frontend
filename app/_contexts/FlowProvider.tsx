@@ -17,7 +17,6 @@ export function FlowProvider({ children }: { children: ReactNode }) {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
 
-  // 将原 handleAddResponseNode 逻辑提取到此处
   const addResponseNode = useCallback(
     (content: string) => {
       const newNode: Node = {

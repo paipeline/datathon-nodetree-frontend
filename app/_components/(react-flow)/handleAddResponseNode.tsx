@@ -12,7 +12,8 @@ export const handleAddResponseNode = (
     setNodes: React.Dispatch<React.SetStateAction<Node[]>>,
     setEdges: React.Dispatch<React.SetStateAction<Edge[]>>,
     title: string,
-    solution: string
+    solution: string,
+    selectedNodeId: string
 ) => {
     if (title === undefined || solution === undefined) {
         // console.log("title 或 solution 未定义 —— 来自 handleAddResponseNode");
@@ -20,20 +21,16 @@ export const handleAddResponseNode = (
     }
 
     setNodes((prevNodes: Node[]): Node[] => {
-        const userInputNodes = prevNodes.filter((node) => node.type === "userInput");
+        const selectedNode = prevNodes.find((node) => node.id === selectedNodeId);
 
-
-        if (!userInputNodes || userInputNodes.length === 0) {
-            // console.log("未找到 userInput 类型节点，无法定位父节点");
+        if (!selectedNode) {
+            // console.log("未找到选中的节点，无法定位父节点");
             return prevNodes;
         }
 
-        const lastUserInputNode = userInputNodes[userInputNodes.length - 1];
-
-        // in respect to the father node, add the new node to the good position
-        console.log("lastUserInputNode", lastUserInputNode);
-        const newX = prevNodes[prevNodes.length - 1].type === "userInput" ? lastUserInputNode.position.x - 1000 : prevNodes[prevNodes.length - 1].position.x + 500;
-        const newY = lastUserInputNode.position.y + 300;
+        console.log("selectedNode", selectedNode);
+        const newX = selectedNode.position.x + 500;
+        const newY = selectedNode.position.y + 300;
 
         const newNode: Node = {
             id: uuidv4(),
@@ -42,12 +39,13 @@ export const handleAddResponseNode = (
             data: {
                 title,
                 solution
-            }
+            },
+            selected: false
         };
 
         setTimeout(() => {
             setEdges((prevEdges: Edge[]): Edge[] => {
-                prevEdges.push({ id: uuidv4(), source: lastUserInputNode.id, target: newNode.id, animated: true });
+                prevEdges.push({ id: uuidv4(), source: selectedNode.id, target: newNode.id, animated: true });
                 return [...prevEdges];
             });
         }, 500)

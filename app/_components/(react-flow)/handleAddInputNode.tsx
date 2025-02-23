@@ -13,7 +13,8 @@ export const handleAddInputNode = (setNodes: React.Dispatch<React.SetStateAction
     type: "userInput",
     content: "",
     position: { x: Math.random() * 200 , y: Math.random() * 200 },
-    data: { label: 'User Input Node' }
+    data: { label: 'User Input Node' },
+    selected: false
   };
   console.log("Node added:", newNode);
   setNodes((prevNodes: any) => [...prevNodes, newNode]);
