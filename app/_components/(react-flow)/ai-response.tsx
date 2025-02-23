@@ -1,12 +1,7 @@
 "use client";
 
-import React from "react";
-import { useState, useEffect, useRef, useCallback } from "react";
-import { ArrowUp, Trash } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { toast } from "sonner";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactMarkdown from 'react-markdown';
-import { Bot } from "lucide-react";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import "@/styles/fade-in.css";
@@ -14,12 +9,66 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 import { Handle, Position } from '@xyflow/react';
+import { Trash, ArrowUp } from "lucide-react";
+import { toast } from "sonner";
 
-const AiResponse = ({ data: { content } }: { data: { content: string } }) => {
+const AiResponse = ({ data : {content}, onSubmit, setIsLoading }: { data: {content: string}, onSubmit: (input: string) => void, setIsLoading: (loading: boolean) => void }) => {
+  const [textareaHeight, setTextareaHeight] = useState<number>(0);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [adjustCount, setAdjustCount] = useState(0);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+  const [position, setPosition] = useState<string>("gpt-4o-mini");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const adjustTextareaHeight = useCallback(() => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const lineCount = textarea.value.split('\n').length;
+    const newAdjustCount = lineCount - 1;
+    setAdjustCount(newAdjustCount);
+
+    if (newAdjustCount <= 3) {
+      textarea.style.overflow = 'hidden';
+      textarea.style.height = 'auto';
+      const newHeight = textarea.scrollHeight;
+      textarea.style.height = `${newHeight}px`;
+      setTextareaHeight(newHeight);
+
+      const button = textarea.parentElement?.nextElementSibling as HTMLButtonElement;
+      if (button) {
+        button.style.height = `${newHeight}px`;
+      }
+    } else {
+      textarea.style.overflow = 'auto';
+    }
+  }, []);
+  
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [inputValue, adjustTextareaHeight]);
+
+  const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (inputValue.trim() === "") {
+      toast.error("Please enter a message");
+      return;
+    }
+
+    setIsLoading(true);
+    onSubmit(inputValue);
+    setInputValue(""); // 触发useEffect中的高度调整
+  };
+  
   console.log("content - ai-response", content);
   return (
     <div
       style={{
+        borderColor: "oklch(0.871 0.15 154.449)",
         padding: 10,
         backgroundColor: "rgba(240, 240, 240, 0.7)",
         border: "2px solid rgba(255, 255, 255, 0.8)",
@@ -78,8 +127,34 @@ const AiResponse = ({ data: { content } }: { data: { content: string } }) => {
       >
         {content}
       </ReactMarkdown>
+      <div className="text-sm text-gray-500 mb-2 italic pt-2">{"Follow-up questions..."}</div>
+      <div className="relative flex items-center">
+        <textarea
+          ref={textareaRef}
+          className="relative w-[calc(100%-70px)] outline-none resize-none bg-transparent p-0 pl-2 pr-16 z-10 border rounded-md"
+          value={inputValue}
+          placeholder="Enter here"
+          onChange={(e) => setInputValue(e.target.value)}
+          rows={1}
+          onInput={handleInput}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+        />
+        <div className="absolute top-0 right-2 flex items-center gap-2" >
+          <div className={`flex items-center justify-center w-6 h-6 bg-gray-400 hover:bg-gray-300 rounded-lg hover:cursor-pointer hover:scale-110
+                transition-transform duration-300`}>
+            <Trash className="w-3 h-3 text-black" />
+          </div>
+          <div className={`flex items-center justify-center w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-lg hover:cursor-pointer hover:scale-110
+              transition-transform duration-300`}
+              onClick={() => handleSubmit}
+              >
+            <ArrowUp className="w-3 h-3 text-white" />
+          </div>
+        </div>
+      </div>
     </div>
   );
-};
+}
 
 export default AiResponse;

@@ -3,7 +3,6 @@
 import React from "react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { ArrowUp, Trash } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import "@/styles/fade-in.css";
 import { Handle, Position } from '@xyflow/react';
@@ -15,7 +14,6 @@ function UserInput({ data, onSubmit, setIsLoading }: { data: any, onSubmit: (inp
   const [adjustCount, setAdjustCount] = useState(0);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [position, setPosition] = useState<string>("gpt-4o-mini");
-
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const adjustTextareaHeight = useCallback(() => {
@@ -84,6 +82,7 @@ function UserInput({ data, onSubmit, setIsLoading }: { data: any, onSubmit: (inp
     <div
       style={{
         padding: 10,
+        borderColor: "oklch(0.828 0.111 230.318)",
         backgroundColor: "rgba(240, 240, 240, 0.7)",
         border: "2px solid rgba(255, 255, 255, 0.8)",
         borderRadius: 12,
@@ -99,7 +98,7 @@ function UserInput({ data, onSubmit, setIsLoading }: { data: any, onSubmit: (inp
       <div className="text-sm text-gray-500 font-bold mb-2">{"Ask Me Now..."}</div>
       <textarea
         ref={textareaRef}
-        className="relative w-full outline-none resize-none bg-transparent p-2 pl-6 z-10 border rounded-md"
+        className="relative w-full outline-none resize-none bg-transparent p-2 pl-4 z-10 border rounded-md"
         value={inputValue}
         placeholder="请输入..."
         onChange={(e) => setInputValue(e.target.value)}
@@ -109,13 +108,13 @@ function UserInput({ data, onSubmit, setIsLoading }: { data: any, onSubmit: (inp
         onBlur={() => setIsFocused(false)}
       />
       <div className="flex items-center justify-end w-full h-full bg-transparent z-10">
-        <div className={`flex items-center justify-center w-6 h-6 bg-gray-300 hover:bg-gray-200 rounded-lg hover:cursor-pointer hover:w-12
+        <div className={`flex items-center justify-center w-6 h-6 bg-gray-400 hover:bg-gray-300 rounded-lg hover:cursor-pointer hover:w-12
               transition-all duration-300`}>
           <Trash className="w-4 h-4 text-black" />
         </div>
         <div className={`flex items-center justify-center ml-3 w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-lg hover:cursor-pointer hover:w-12
             transition-all duration-300`}
-            onClick={handleSubmit}
+            onClick={() => handleSubmit}
             >
           <ArrowUp className="w-4 h-4 text-white" />
         </div>
