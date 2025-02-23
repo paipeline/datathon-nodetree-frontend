@@ -3,7 +3,7 @@ import { Node, useReactFlow } from "@xyflow/react";
 export const useNodeColor = () => {
   const { setNodes, getNodes } = useReactFlow();
 
-  const setColor = (color: string) => {
+  const setColor = (id: string, color: string) => {
     const selectedNode = getNodes().find(n => n.selected);
     if (!selectedNode) return;
 
@@ -33,7 +33,8 @@ export const useNodeColor = () => {
       },
       body: JSON.stringify({
         id: selectedNode.id, 
-        priority: priority
+        priority: priority,
+        parentId: id
       })
     })
     .then(response => response.json())
@@ -50,8 +51,8 @@ export const useNodeColor = () => {
   };
 
   return {
-    setRed: () => setColor("#ff4d4d"),
-    setOrange: () => setColor("#ff9933"),
-    setYellow: () => setColor("#ffd633")
+    setRed: (id: string, color: string) => setColor(id, color),
+    setOrange: (id: string, color: string) => setColor(id, color),
+    setYellow: (id: string, color: string) => setColor(id, color)
   };
 };

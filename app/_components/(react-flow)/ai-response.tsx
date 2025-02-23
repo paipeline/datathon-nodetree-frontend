@@ -224,16 +224,16 @@ const AiResponse = ({
               value={position}
               onValueChange={setPosition}
             >
-              <DropdownMenuRadioItem onClick={() => setRed()} value={"high"}>
+              <DropdownMenuRadioItem onClick={() => setRed(id, "#ff4d4d")} value={"high"}>
                 High
               </DropdownMenuRadioItem>
               <DropdownMenuRadioItem
                 value={"Medium"}
-                onClick={() => setOrange()}
+                onClick={() => setOrange(id, "#ff9933")}
               >
                 Medium
               </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value={"Low"} onClick={() => setYellow()}>
+              <DropdownMenuRadioItem value={"Low"} onClick={() => setYellow(id, "#ffd633")}>
                 Low
               </DropdownMenuRadioItem>
             </DropdownMenuRadioGroup>
