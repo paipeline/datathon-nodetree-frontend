@@ -9,7 +9,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 import { Handle, Position } from '@xyflow/react';
-import { Trash, ArrowUp, Menu } from "lucide-react";
+import { Trash, ArrowUp, Maximize } from "lucide-react";
 import { toast } from "sonner";
 import { useNodeColor } from "./handleDropDownMenu";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -25,6 +25,9 @@ const AiResponse = ({ data: { title, solution } }: { data: { title: string, solu
   const [position, setPosition] = useState<string>("gpt-4o-mini");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { setRed, setOrange, setYellow } = useNodeColor();
+
+  const [expand, setExpand] = useState<boolean>(false);
+  const [expandHeight, setExpandHeight] = useState<number>(150);
 
   // if title or solution is undefined, return null, not render the node
   if (title === undefined || solution === undefined) {
@@ -109,11 +112,15 @@ const AiResponse = ({ data: { title, solution } }: { data: { title: string, solu
       }}
     >
       <Handle type="target" position={Position.Top} id="b" />
-      <div className="flex items-center justify-between w-full mb-2">
+      <div className="flex items-center justify-start w-full mb-2">
         <div className="text-sm text-gray-500 font-bold">{"AI Response"}</div>
+        <Button variant="outline" className="flex items-center gap-1 text-xs w-6 h-6 ml-auto" onClick={() => setExpand(!expand)}>
+          <Maximize className="w-4 h-4 text-gray-500 hover:cursor-pointer hover:text-gray-700" />
+          <p className="text-xs">{expand ? "Collapse" : "Expand"}</p>
+        </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="text-xs w-12 h-6">Priority</Button>
+            <Button variant="outline" className="text-xs w-12 h-6 ml-2">Priority</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
