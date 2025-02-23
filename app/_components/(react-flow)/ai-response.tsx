@@ -140,7 +140,11 @@ const AiResponse = ({ data: { title, solution } }: { data: { title: string, solu
 
             if (inline || !lang) {
               return (
-                <code className="bg-gray-700 rounded px-1 text-white" {...props}>
+                <code
+                  className="bg-gray-700 rounded px-1 text-white"
+                  style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}
+                  {...props}
+                >
                   {children}
                 </code>
               );
