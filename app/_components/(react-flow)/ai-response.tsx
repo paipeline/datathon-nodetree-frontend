@@ -163,7 +163,7 @@ const AiResponse = ({ data: { title, solution } }: { data: { title: string, solu
           a: ({ node, ...props }) => <a target="_blank" rel="noopener noreferrer" {...props} />,
         }}
       >
-        {`Title: <b>${title}</b>\n\nSolution: ${solution}`}
+        {`# **Title:** ${title}\n\n# **Solution:**\n ${solution}`}
       </ReactMarkdown>
       <div className="text-sm text-gray-500 mb-2 italic pt-2">{"Follow-up questions..."}</div>
       <div className="relative flex items-center">
