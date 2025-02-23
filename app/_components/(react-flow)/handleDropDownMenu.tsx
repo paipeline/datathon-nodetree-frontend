@@ -14,6 +14,39 @@ export const useNodeColor = () => {
           : node
       )
     );
+
+    // set the priority based on the color
+    let priority = 0;
+    if (color === "#ff4d4d") {
+      priority = 2;
+    } else if (color === "#ff9933") {
+      priority = 1;
+    } else if (color === "#ffd633") {
+      priority = 0;
+    }
+
+    // continue here
+    fetch('/set-priority', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: selectedNode.id, 
+        priority: priority
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        console.log('success to set priority:', data.node);
+      } else {
+        console.log('failed to set priority:', data);
+      }
+    })
+    .catch(error => {
+      console.error('failed to set priority:', error);
+    });
   };
 
   return {
