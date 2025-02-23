@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import { ArrowUp, Trash } from "lucide-react";
 import { Handle, Position } from '@xyflow/react';
 import { handleAddResponseNode } from "./handleAddResponseNode";
@@ -16,6 +16,34 @@ export const UserInput = ({ setCustomNodes, setCustomEdges }: { setCustomNodes: 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const adjustTextareaHeight = useCallback(() => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const lineCount = textarea.value.split('\n').length;
+    const newAdjustCount = lineCount - 1;
+    setAdjustCount(newAdjustCount);
+
+    if (newAdjustCount <= 3) {
+      textarea.style.overflow = 'hidden';
+      textarea.style.height = 'auto';
+      const newHeight = textarea.scrollHeight;
+      textarea.style.height = `${newHeight}px`;
+      setTextareaHeight(newHeight);
+
+      const button = textarea.parentElement?.nextElementSibling as HTMLButtonElement;
+      if (button) {
+        button.style.height = `${newHeight}px`;
+      }
+    } else {
+      textarea.style.overflow = 'auto';
+    }
+  }, []);
+
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [inputValue, adjustTextareaHeight]);
 
   const handleAddResponse = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();

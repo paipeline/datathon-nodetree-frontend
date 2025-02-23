@@ -180,11 +180,11 @@ const AiResponse = ({ data: { title, solution } }: { data: { title: string, solu
         textarea::-webkit-scrollbar-thumb {
           background-color: #888;
           border-radius: 3px;
-          cursor: default; /* 鼠标在滚动条上变成箭头 */
+          cursor: default; 
         }
 
         textarea {
-          cursor: text; /* 默认文本输入区域为文本光标 */
+          cursor: text;
         }
       `}</style>
         <textarea
