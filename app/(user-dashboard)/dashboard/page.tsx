@@ -68,7 +68,7 @@ export default function Dashboard() {
                     <span className="text-gray-600 text-sm">alpha version</span>
                   </div>
                   <div className="mt-2 text-lg font-mono tracking-wide">
-                    <div className="fade-in flex items-center justify-start gap-2 mb-2">
+                    <div className="fade-in flex items-center justify-start gap-2 mb-2 w-[80%] mt-1">
                       <Bot className="w-9 h-9 border border-gray-600 rounded-full p-1 bg-gray-100" />
                       <p className="text-sm  bg-gradient-to-r from-blue-300 to-purple-300 hover:from-blue-400 hover:to-purple-400 rounded-2xl p-2">
                         Good day! How can I help you today?
@@ -82,6 +82,20 @@ export default function Dashboard() {
                         <img src="/images/TestProfilePicture.JPG" alt="Profile Picture" className="w-full h-full object-cover rounded-full" />
                       </div>
                     </div>
+                    <div className="flex gap-2 mb-2 mt-4 fade-in justify-end mb-1">
+                      <div className="text-sm bg-gray-200 rounded-2xl p-2 max-w-[70%] break-words">
+                        <p>I want to know about the Linear regression model</p>
+                      </div>
+                      <div className="rounded-full h-[36px] w-[36px] border border-gray-300">
+                        <img src="/images/TestProfilePicture.JPG" alt="Profile Picture" className="w-full h-full object-cover rounded-full" />
+                      </div>
+                    </div>
+                    <div className="fade-in flex items-center justify-start gap-2 mb-2 w-[80%] mt-2">
+                      <Bot className="w-9 h-9 border border-gray-600 rounded-full p-1 bg-gray-100" />
+                      <p className="text-sm  bg-gradient-to-r from-blue-300 to-purple-300 hover:from-blue-400 hover:to-purple-400 rounded-2xl p-2">
+                        Regression is a statistical method that explores the relationship between a dependent variable and one or more independent variables.
+                      </p>
+                    </div>
                   </div>
                 </div>
                 {/* Second Card */}
@@ -90,8 +104,8 @@ export default function Dashboard() {
                     <span className="text-xl font-semibold">Tree Bot</span>
                     <span className="text-gray-600 text-sm">alpha version</span>
                   </div>
-                  <div className="mt-2 text-lg font-mono tracking-wide">
-                    Tree Bot is currently under development.
+                  <div className="mt-2 text-lg font-mono tracking-wide w-full h-[calc(100%-35px)]">
+                    <img src="/images/TreeBot.png" alt="Tree Bot" className="w-full h-full object-cover rounded-2xl" />
                   </div>
                 </div>
               </div>
