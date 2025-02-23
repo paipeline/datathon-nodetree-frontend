@@ -7,19 +7,24 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import "@/styles/fade-in.css";
 import { Handle, Position } from '@xyflow/react';
+import { handleAddResponseNode } from "./handleAddResponseNode";
+import { useNodesState } from "@xyflow/react";
+import { initialNodes } from "./canvas.node";
 
-interface UserInputProps {
-  data: any;
-  onSubmit: (input: string) => void;
-  setIsLoading: (loading: boolean) => void;
-}
+// interface UserInputProps {
+//   data: any;
+//   onSubmit: (input: string) => void;
+//   setIsLoading: (loading: boolean) => void;
+// }
 
-const UserInput: React.FC<UserInputProps> = ({ data, onSubmit, setIsLoading }) => {
+const UserInput = () => {
   const [textareaHeight, setTextareaHeight] = useState<number>(0);
   const [inputValue, setInputValue] = useState<string>("");
   const [adjustCount, setAdjustCount] = useState(0);
-  const [isFocused, setIsFocused] = useState<boolean>(false);
-  const [position, setPosition] = useState<string>("gpt-4o-mini");
+  const [isLoading, setIsLoading] = useState(false);
+  // const [onSubmit, setOnSubmit] = useState<((input: string) => void) | null>(null);
+
+  const [customNodes, setCustomNodes, onCustomNodesChange] = useNodesState(initialNodes);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -100,7 +105,9 @@ const UserInput: React.FC<UserInputProps> = ({ data, onSubmit, setIsLoading }) =
             try {
               const data = JSON.parse(event.slice(6));
               console.log("data", data);
-              // 这里可以处理接收到的数据
+              // rendering the ai-response node
+              handleAddResponseNode(setCustomNodes as any, "test - from user input");
+              console.log("customNodes", customNodes);
             } catch (e) {
               console.error('Error parsing event data:', e);
             }
@@ -116,7 +123,7 @@ const UserInput: React.FC<UserInputProps> = ({ data, onSubmit, setIsLoading }) =
     }
 
     setIsLoading(true);
-    onSubmit(inputValue);
+    // onSubmit(inputValue);
     setInputValue("");
   };
 
@@ -163,12 +170,10 @@ const UserInput: React.FC<UserInputProps> = ({ data, onSubmit, setIsLoading }) =
         onChange={(e) => setInputValue(e.target.value)}
         rows={1}
         onInput={handleInput}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
       />
       <div className="flex items-center justify-end w-full h-full bg-transparent z-10">
         <div className={`flex items-center justify-center w-6 h-6 bg-gray-300 hover:bg-gray-200 rounded-lg hover:cursor-pointer hover:w-12
-              transition-all duration-300`}>
+            transition-all duration-300`}>
           <Trash className="w-4 h-4 text-black" />
         </div>
         <div className={`flex items-center justify-center ml-3 w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-lg hover:cursor-pointer hover:w-12

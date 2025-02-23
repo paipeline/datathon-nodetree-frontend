@@ -16,7 +16,7 @@ import 'katex/dist/katex.min.css';
 import { Handle, Position } from '@xyflow/react';
 
 const AiResponse = ({ data: { content } }: { data: { content: string } }) => {
-  console.log("content - ai-response", content);
+  // console.log("content - ai-response", content);
   return (
     <div
       style={{
@@ -49,15 +49,12 @@ const AiResponse = ({ data: { content } }: { data: { content: string } }) => {
             const lang = match ? match[1] : '';
 
             if (inline || !lang) {
-              // 如果是内联代码或没有指定语言，则使用内联样式
               return (
                 <code className="bg-gray-700 rounded px-1 text-white" {...props}>
                   {children}
                 </code>
               );
             }
-
-            // 保留 SyntaxHighlighter 用于多行代码块
             return (
               <SyntaxHighlighter
                 language={lang || 'text'}

@@ -55,7 +55,7 @@ export default function Canvas() {
         className="absolute top-4 right-44 bg-blue-500 text-white px-4 py-2 rounded shadow-md hover:bg-blue-600"
         onClick={() => {
           console.log('Button clicked');
-          handleAddResponseNode(setCustomNodes as any);
+          handleAddResponseNode(setCustomNodes as any, "test");
         }}
       >
         Add Response Node
