@@ -11,6 +11,7 @@ import 'katex/dist/katex.min.css';
 import { Handle, Position } from '@xyflow/react';
 import { Trash, ArrowUp } from "lucide-react";
 import { toast } from "sonner";
+import { DropdownMenu } from "@/components/ui/dropdown-menu";
 
 const AiResponse = ({ data : {content}, onSubmit, setIsLoading }: { data: {content: string}, onSubmit: (input: string) => void, setIsLoading: (loading: boolean) => void }) => {
   const [textareaHeight, setTextareaHeight] = useState<number>(0);

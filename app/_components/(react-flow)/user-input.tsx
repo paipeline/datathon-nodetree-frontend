@@ -80,9 +80,9 @@ function UserInput({ data, onSubmit, setIsLoading }: { data: any, onSubmit: (inp
 
   return (
     <div
+    className="border-sky-400"
       style={{
         padding: 10,
-        borderColor: "oklch(0.828 0.111 230.318)",
         backgroundColor: "rgba(240, 240, 240, 0.7)",
         border: "2px solid rgba(255, 255, 255, 0.8)",
         borderRadius: 12,
