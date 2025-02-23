@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ReactFlow,
   MiniMap,
@@ -26,7 +26,7 @@ export default function Canvas() {
 
   const onConnect = useCallback((connection: any) => {
     const edge = { ...connection, animated: true, id: uuidv4() + "-edge" };
-    setCustomEdges((edges) => addEdge(edge, edges));
+    setCustomEdges((edges: any) => addEdge(edge, edges));
   }, [setCustomEdges]);
 
   const handleAddInput = () => {
@@ -36,6 +36,10 @@ export default function Canvas() {
   const handleAddResponse = () => {
     handleAddResponseNode(setCustomNodes, "这是一个新AI节点");
   };
+
+  useEffect(() => {
+    console.log("customNodes", customNodes);
+  }, [customNodes]);
 
   // 重写 userInput: 注入 setCustomNodes
   const nodeTypes = {

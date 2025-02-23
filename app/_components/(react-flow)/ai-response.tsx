@@ -19,6 +19,7 @@ const AiResponse = ({ data: { content } }: { data: { content: string } }) => {
   // console.log("content - ai-response", content);
   return (
     <div
+      className="fade-in-1"
       style={{
         padding: 10,
         backgroundColor: "rgba(240, 240, 240, 0.7)",

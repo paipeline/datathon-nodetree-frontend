@@ -21,9 +21,9 @@ export default function UserInput({
 
   const handleAddResponse = () => {
     if (!inputValue.trim()) return;
-    handleAddResponseNode(setCustomNodes, inputValue.trim());
-    handleAddResponseNode(setCustomNodes, inputValue.trim());
-    handleAddResponseNode(setCustomNodes, inputValue.trim());
+    handleAddResponseNode(setCustomNodes as any, inputValue.trim());
+    handleAddResponseNode(setCustomNodes as any, inputValue.trim());
+    handleAddResponseNode(setCustomNodes as any, inputValue.trim());
     setInputValue("");
   };
 
