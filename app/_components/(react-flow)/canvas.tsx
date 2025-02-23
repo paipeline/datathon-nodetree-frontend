@@ -64,7 +64,7 @@ export default function Canvas() {
         setCustomEdges={setCustomEdges}
       />
     ),
-  }), [setCustomNodes]);
+  }), [setCustomNodes, setCustomEdges]);
 
   return (
     <ReactFlowProvider>

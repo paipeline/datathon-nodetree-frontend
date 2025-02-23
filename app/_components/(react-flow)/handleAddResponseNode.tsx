@@ -28,7 +28,7 @@ export const handleAddResponseNode = (
 
     setNodes((prevNodes: Node[]): Node[] => {
 
-        const newX = prevNodes[prevNodes.length - 1].type === "userInput" ? positionAbsoluteX - 1000 : prevNodes[prevNodes.length - 1].position.x + 500;
+        const newX = prevNodes[prevNodes.length - 1].id === selectedNodeId ? positionAbsoluteX - 1000 : prevNodes[prevNodes.length - 1].position.x + 500;
         const newY = positionAbsoluteY + 300;
 
         const newNode: Node = {

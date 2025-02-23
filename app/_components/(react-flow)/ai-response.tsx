@@ -8,7 +8,7 @@ import "@/styles/fade-in.css";
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
-import { Handle, Position } from '@xyflow/react';
+import { Handle, Position, NodeProps } from '@xyflow/react';
 import { Trash, ArrowUp, Maximize } from "lucide-react";
 import { toast } from "sonner";
 import { useNodeColor } from "./handleDropDownMenu";
@@ -17,8 +17,35 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenuRadioGroup } from "@radix-ui/react-dropdown-menu";
 import "@/styles/fade-in.css";
 import { cn } from "@/lib/utils";
+import { handleAddResponseNode } from "./handleAddResponseNode";
 
-const AiResponse = ({ data: { title, solution } }: { data: { title: string, solution: string } }) => {
+interface AiResponseProps extends NodeProps {
+  data: {
+    title: string;
+    solution: string;
+  };
+  setCustomNodes: React.Dispatch<React.SetStateAction<any[]>>;
+  setCustomEdges: React.Dispatch<React.SetStateAction<any[]>>;
+}
+
+const AiResponse = ({
+  data: { title, solution },
+  setCustomNodes,
+  setCustomEdges,
+  id,
+  selected,
+  ...rest
+}: AiResponseProps) => {
+  if (!title || !solution) {
+    return null;
+  }
+  const {
+    positionAbsoluteX,
+    positionAbsoluteY,
+    setCustomNodes: restSetCustomNodes,
+    setCustomEdges: restSetCustomEdges,
+  } = rest;
+
   const [textareaHeight, setTextareaHeight] = useState<number>(0);
   const [inputValue, setInputValue] = useState<string>("");
   const [adjustCount, setAdjustCount] = useState(0);
@@ -30,6 +57,8 @@ const AiResponse = ({ data: { title, solution } }: { data: { title: string, solu
   const [isExpand, setIsExpand] = useState<boolean>(false);
   const [isFullyExpanded, setIsFullyExpanded] = useState<boolean>(false);
   const aiResponseRef = useRef<HTMLDivElement>(null);
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleExpand = () => {
     if (!isExpand) {
@@ -44,11 +73,6 @@ const AiResponse = ({ data: { title, solution } }: { data: { title: string, solu
       }, 100);
     }
   };
-
-  // if title or solution is undefined, return null, not render the node
-  if (title === undefined || solution === undefined) {
-    return null;
-  }
 
   const adjustTextareaHeight = useCallback(() => {
     const textarea = textareaRef.current;
@@ -82,19 +106,74 @@ const AiResponse = ({ data: { title, solution } }: { data: { title: string, solu
     setInputValue(event.target.value);
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleAddResponse = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (inputValue.trim() === "") {
-      toast.error("Please enter a message");
       return;
     }
+    setIsLoading(true);
 
-    // setIsLoading(true);
-    // onSubmit(inputValue);
-    setInputValue(""); 
+    try {
+      const response = await fetch("http://localhost:8000/api/v1/round", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          originalInput: inputValue,
+          followUpQuestion: "",
+          metadata: {
+            language: "English"
+          },
+          sessionId: null,
+          traceId: null,
+          contextNodes: null
+        }),
+      });
+
+      if (!response.ok) throw new Error("Request failed");
+
+      console.log("responsing");
+      console.log(response);
+
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { value, done } = await reader?.read() || {};
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        console.log("Stream chunk:", chunk);
+
+        // split by \n
+        const lines = chunk.split('\n');
+
+        for (const line of lines) {
+          const trimmedLine = line.trim();
+
+          // console.log("Line content:", trimmedLine);
+
+          // check if it starts with data:
+          if (trimmedLine.startsWith('data: ')) {
+            try {
+              // remove data: and trim
+              const jsonData = trimmedLine.slice(6).trim();
+              if (jsonData) {
+                const parsedData = JSON.parse(jsonData);
+                console.log("Parsed data:", parsedData);
+                // render ai-response node
+                handleAddResponseNode(setCustomNodes, setCustomEdges, parsedData.title, parsedData.solution, id, positionAbsoluteX, positionAbsoluteY, rest.type);
+              }
+            } catch (e) {
+              console.error('Error parsing event data:', e);
+            }
+          }
+        }
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
   };
-
-  // console.log("content - ai-response", content);;
 
   return (
     <div
@@ -118,6 +197,7 @@ const AiResponse = ({ data: { title, solution } }: { data: { title: string, solu
       }}
     >
       <Handle type="target" position={Position.Top} id="b" />
+      <Handle type="source" position={Position.Bottom} id="a" />
       <div className="flex items-center justify-start w-full mb-2">
         <div className="text-sm text-gray-500 font-bold">{"AI Response"}</div>
         <Button variant="outline" className="flex items-center gap-2 text-xs h-6 ml-auto" onClick={handleExpand}>
@@ -196,7 +276,7 @@ const AiResponse = ({ data: { title, solution } }: { data: { title: string, solu
           </p>
         </div>
       )}
-      <div className="relative flex items-center">
+      <div className="relative flex items-center mt-5">
         <textarea
           ref={textareaRef}
           onFocus={() => setIsFocused(true)}
@@ -215,7 +295,7 @@ const AiResponse = ({ data: { title, solution } }: { data: { title: string, solu
           </div>
           <div className={`flex items-center justify-center w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-lg hover:cursor-pointer
               transition-transform duration-300`}
-            onClick={() => handleSubmit}
+            onClick={handleAddResponse}
           >
             <ArrowUp className="w-3 h-3 text-white" />
           </div>
