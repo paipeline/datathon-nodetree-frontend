@@ -7,17 +7,17 @@ export const nodeTypes = {
 };
 
 // 处理添加节点
-export const handleAddResponseNode = async (
+export const handleAddResponseNode = (
     setNodes: React.Dispatch<React.SetStateAction<Node[]>>,
     content: string
 ) => {
-    // const { default: UserInput } = await import("./user-input");
-    const newNode = {
+    const newNode: Node = {
         id: uuidv4(),
         type: "aiResponse",
-        content: "",
         position: { x: Math.random() * 300 , y: Math.random() * 300 },
-        data: { content }
+        data: {
+            content
+        }
     };
     console.log("Node added:", newNode);
     setNodes((prevNodes: any) => [...prevNodes, newNode]);

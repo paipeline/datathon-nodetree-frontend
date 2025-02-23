@@ -1,6 +1,8 @@
 import UserInput from "./user-input";
 import AiResponse from "./ai-response";
 
+
+
 export interface Node {
   id: string;                 // 节点唯一标识
   type: string;               // 节点类型，例如 "question" | "answer" | "reasoning"
@@ -13,11 +15,12 @@ export interface Node {
     y: number;
   };
   data?: {                    // 新增的 data 属性
-    label: string;
+    label?: string;
+    content?: string;
   };
 }
 
-export const initialNodes = [
+export const initialNodes: Node[] = [
   {
     id: 'user-input-node-1',
     type: 'userInput',
