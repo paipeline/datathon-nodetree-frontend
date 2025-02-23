@@ -12,22 +12,41 @@ export const handleAddResponseNode = (
     title: string,
     solution: string
 ) => {
-    const newNode: Node = {
-        id: uuidv4(),
-        type: "aiResponse",
-        position: { x: Math.random() * 300 , y: Math.random() * 300 },
-        data: {
-            title,
-            solution
-        }
-    };
-    // check if the title or the solution is undefined
     if (title === undefined || solution === undefined) {
-        console.log("title or solution is undefined -- from handleAddResponseNode");
+        console.log("title 或 solution 未定义 —— 来自 handleAddResponseNode");
         return;
     }
-    console.log("Node added:", newNode);
-    setNodes((prevNodes: any) => [...prevNodes, newNode]);
+
+    setNodes((prevNodes: Node[]): Node[] => {
+        // 查找所有的 userInput 节点
+        const userInputNodes = prevNodes.filter((node) => node.type === "userInput");
+
+        if (!userInputNodes || userInputNodes.length === 0) {
+            console.log("未找到 userInput 类型节点，无法定位父节点");
+            return prevNodes;
+        }
+
+        // 这里以"最后一个" userInput 节点作为父节点
+        const lastUserInputNode = userInputNodes[userInputNodes.length - 1];
+
+        // 在父节点坐标基础上，x 轴向右移动 500px，y 轴向上移动 100px
+        console.log("lastUserInputNode", lastUserInputNode);
+        const newX = prevNodes[prevNodes.length - 1].type === "userInput" ? lastUserInputNode.position.x - 1000 : prevNodes[prevNodes.length - 1].position.x + 500;
+        const newY = lastUserInputNode.position.y + 300;
+
+        const newNode: Node = {
+            id: uuidv4(),
+            type: "aiResponse",
+            position: { x: newX, y: newY },
+            data: {
+                title,
+                solution
+            }
+        };
+
+        console.log("新增 AI 节点:", newNode);
+        return [...prevNodes, newNode];
+    });
 };
 
 export default handleAddResponseNode;
