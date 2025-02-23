@@ -57,9 +57,9 @@ export default function UserInput({
       console.log(response);
 
       // 可以reach到
-      handleAddResponseNode(setCustomNodes as any, "test - from user input");
-      handleAddResponseNode(setCustomNodes as any, "test - from user input");
-      handleAddResponseNode(setCustomNodes as any, "test - from user input");
+      // handleAddResponseNode(setCustomNodes as any, "test - from user input");
+      // handleAddResponseNode(setCustomNodes as any, "test - from user input");
+      // handleAddResponseNode(setCustomNodes as any, "test - from user input");
 
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
@@ -70,20 +70,31 @@ export default function UserInput({
 
         const chunk = decoder.decode(value);
         console.log("Stream chunk:", chunk);
-        const events = chunk.split('\n\n');
 
-        for (const event of events) {
-          // if (event.startsWith('data: ')) {
-            try {   
-              const data = JSON.parse(event.slice(6));
-              console.log("张珅玮是傻逼！");
-              // rendering the ai-response node
-              handleAddResponseNode(setCustomNodes as any, "test - from user input");
-              // console.log("customNodes", customNodes);
+        // 改为按行来拆分
+        const lines = chunk.split('\n');
+
+        for (const line of lines) {
+          const trimmedLine = line.trim();
+          // 打印看每一行是什么
+          console.log("Line content:", trimmedLine);
+
+          // 检查是否以 data: 开头
+          if (trimmedLine.startsWith('data: ')) {
+            console.log("event -- shiya 2");
+            try {
+              // 去掉 data: 后面的部分，并再次 trim
+              const jsonData = trimmedLine.slice(6).trim();
+              if (jsonData) {
+                const parsedData = JSON.parse(jsonData);
+                console.log("Parsed data:", parsedData);
+                // 渲染 ai-response node
+                handleAddResponseNode(setCustomNodes as any, "test - from user input");
+              }
             } catch (e) {
               console.error('Error parsing event data:', e);
             }
-          // }
+          }
         }
       }
       
@@ -91,10 +102,10 @@ export default function UserInput({
     } catch (error) {
       console.error("API error:", error);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
 
-    setIsLoading(true);
+    // setIsLoading(true);
     // onSubmit(inputValue);
     setInputValue("");
   };
