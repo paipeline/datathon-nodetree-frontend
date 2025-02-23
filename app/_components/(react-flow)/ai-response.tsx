@@ -119,7 +119,7 @@ const AiResponse = ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           originalInput: inputValue,
-          followUpQuestion: "",
+          followUpQuestion: title,
           metadata: {
             language: "English"
           },
