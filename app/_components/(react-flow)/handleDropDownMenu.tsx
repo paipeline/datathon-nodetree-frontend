@@ -26,7 +26,7 @@ export const useNodeColor = () => {
     }
 
     // continue here
-    fetch('/set-priority', {
+    fetch('http://localhost:8000/api/v2/set-priority', {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json'
