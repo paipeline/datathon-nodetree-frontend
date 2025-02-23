@@ -7,7 +7,7 @@ export const nodeTypes = {
     userInput: UserInput,
   };
 // 处理添加节点
-export const handleAddNode = (setNodes: React.Dispatch<React.SetStateAction<Node[]>>) => {
+export const handleAddInputNode = (setNodes: React.Dispatch<React.SetStateAction<Node[]>>) => {
   const newNode = {
     id: uuidv4(),
     type: "userInput",
@@ -19,8 +19,4 @@ export const handleAddNode = (setNodes: React.Dispatch<React.SetStateAction<Node
   setNodes((prevNodes: any) => [...prevNodes, newNode]);
 };
 
-export default handleAddNode;
-
-function setNodes(arg0: (prevNodes: any) => any[]) {
-  throw new Error("Function not implemented.");
-}
+export default handleAddInputNode;
