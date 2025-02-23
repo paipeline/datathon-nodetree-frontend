@@ -375,34 +375,42 @@ const AiResponse = ({
         </div>
       )}
       <div className="relative flex items-center mt-5">
-        <textarea
-          ref={textareaRef}
-          onFocus={() => setIsFocused(true)}
-          className="relative w-[calc(100%-70px)] outline-none resize-none bg-transparent p-0 pl-2 pr-16 z-10 border rounded-md overflow-y-auto"
-          value={inputValue}
-          placeholder="Enter here"
-          onChange={(e) => setInputValue(e.target.value)}
-          rows={1}
-          onInput={handleInput}
-          onBlur={() => setIsFocused(false)}
-        />
-        <div className="absolute top-0 right-2 flex items-center gap-2">
-          <div
-            className={`flex items-center justify-center w-6 h-6 bg-gray-400 hover:bg-gray-300 rounded-lg hover:cursor-pointer 
+        {isLoading ? (
+          <div className="flex items-center justify-center w-full h-full">
+            <p className="text-gray-500 text-sm">Loading...</p>
+          </div>
+        ) : (
+          <>
+            <textarea
+              ref={textareaRef}
+              onFocus={() => setIsFocused(true)}
+              className="relative w-[calc(100%-70px)] outline-none resize-none bg-transparent p-0 pl-2 pr-16 z-10 border rounded-md overflow-y-auto"
+              value={inputValue}
+              placeholder="Enter here"
+              onChange={(e) => setInputValue(e.target.value)}
+              rows={1}
+              onInput={handleInput}
+              onBlur={() => setIsFocused(false)}
+            />
+            <div className="absolute top-0 right-2 flex items-center gap-2">
+              <div
+                className={`flex items-center justify-center w-6 h-6 bg-gray-400 hover:bg-gray-300 rounded-lg hover:cursor-pointer 
                 transition-transform duration-300`}
-          >
-            <Trash className="w-3 h-3 text-black" />
-          </div>
-          <div
-            className={`flex items-center justify-center w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-lg hover:cursor-pointer
+              >
+                <Trash className="w-3 h-3 text-black" />
+              </div>
+              <div
+                className={`flex items-center justify-center w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-lg hover:cursor-pointer
               transition-transform duration-300`}
-            onClick={handleAddResponse}
-          >
-            <ArrowUp className="w-3 h-3 text-white" />
-          </div>
-        </div>
+                onClick={handleAddResponse}
+              >
+                <ArrowUp className="w-3 h-3 text-white" />
+              </div>
+            </div>
+          </>
+        )}
       </div>
-    </div>
+    </div >
   );
 }
 

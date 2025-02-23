@@ -148,7 +148,7 @@ const ConversationArea = ({
           </div>
           <ArrowRightLeft className="w-4 h-4 text-gray-600 transition-all duration-300 translate-x-[24px] translate-y-[8px]" />
           <div
-            className="flex items-center justify-center w-8 h-8 bg-transparent rounded-lg hover:bg-gray-200 shadow-sm
+            className="flex items-center justify-center h-8 bg-transparent rounded-lg hover:bg-gray-200 shadow-sm
             transition-all duration-500 hover:cursor-pointer w-28"
             onClick={() => setCaroselIndex((prevIndex) => (prevIndex + 1) % 2)}>
             <p className="text-sm font-medium text-gray-600 transition-all duration-300 opacity-100 translate-x-[8px]">
