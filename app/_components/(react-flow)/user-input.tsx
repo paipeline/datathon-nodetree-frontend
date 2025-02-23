@@ -8,19 +8,19 @@ import "@/styles/fade-in.css";
 import "@/app/_components/(conversation)/inputbar.css";
 import { cn } from "@/lib/utils";
 
-export const UserInput = ({
-  id,                // 这里就是节点的 id
-  data,
-  setCustomNodes,
-  setCustomEdges,
-  customNodes
-}: {
-  id: string;        // 这里声明一下类型
-  data?: any;
-  setCustomNodes: (nodes: any) => void; 
-  setCustomEdges: (edges: any) => void;
-  customNodes: any[];
-}) => {
+export function UserInput(nodeProps: any) {
+  const {
+    id,
+    position,
+    positionAbsoluteX,
+    positionAbsoluteY,
+    data,
+    selected,
+    setCustomNodes,
+    setCustomEdges,
+    ...rest
+  } = nodeProps;
+
   const [textareaHeight, setTextareaHeight] = useState<number>(0);
   const [inputValue, setInputValue] = useState<string>("");
   const [adjustCount, setAdjustCount] = useState(0);
@@ -62,10 +62,6 @@ export const UserInput = ({
     if (inputValue.trim() === "") {
       return;
     }
-
-    // 这里可以直接使用当前节点的 id
-    console.log("当前 UserInput 节点的 id:", id);
-
     setIsLoading(true);
 
     try {
@@ -116,7 +112,7 @@ export const UserInput = ({
                 const parsedData = JSON.parse(jsonData);
                 console.log("Parsed data:", parsedData);
                 // render ai-response node
-                handleAddResponseNode(setCustomNodes as any, setCustomEdges as any, parsedData.title, parsedData.solution, id);
+                handleAddResponseNode(setCustomNodes, setCustomEdges, parsedData.title, parsedData.solution, id, positionAbsoluteX, positionAbsoluteY, rest.type);
               }
             } catch (e) {
               console.error('Error parsing event data:', e);

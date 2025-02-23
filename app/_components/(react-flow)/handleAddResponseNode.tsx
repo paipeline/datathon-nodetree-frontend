@@ -13,24 +13,23 @@ export const handleAddResponseNode = (
     setEdges: React.Dispatch<React.SetStateAction<Edge[]>>,
     title: string,
     solution: string,
-    selectedNodeId: string
+    selectedNodeId: string,
+    positionAbsoluteX: number,
+    positionAbsoluteY: number,
+    type: string
 ) => {
     if (title === undefined || solution === undefined) {
         // console.log("title 或 solution 未定义 —— 来自 handleAddResponseNode");
         return;
     }
 
+    console.log("positionAbsoluteX", positionAbsoluteX);
+    console.log("positionAbsoluteY", positionAbsoluteY);
+
     setNodes((prevNodes: Node[]): Node[] => {
-        const selectedNode = prevNodes.find((node) => node.id === selectedNodeId);
 
-        if (!selectedNode) {
-            // console.log("未找到选中的节点，无法定位父节点");
-            return prevNodes;
-        }
-
-        console.log("selectedNode", selectedNode);
-        const newX = selectedNode.position.x + 500;
-        const newY = selectedNode.position.y + 300;
+        const newX = prevNodes[prevNodes.length - 1].type === "userInput" ? positionAbsoluteX - 1000 : prevNodes[prevNodes.length - 1].position.x + 500;
+        const newY = positionAbsoluteY + 300;
 
         const newNode: Node = {
             id: uuidv4(),
@@ -45,7 +44,7 @@ export const handleAddResponseNode = (
 
         setTimeout(() => {
             setEdges((prevEdges: Edge[]): Edge[] => {
-                prevEdges.push({ id: uuidv4(), source: selectedNode.id, target: newNode.id, animated: true });
+                prevEdges.push({ id: uuidv4(), source: selectedNodeId, target: newNode.id, animated: true });
                 return [...prevEdges];
             });
         }, 500)

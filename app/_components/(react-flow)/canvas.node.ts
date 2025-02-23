@@ -28,10 +28,7 @@ export const initialNodes: Node[] = [
     id: 'user-input-node-1',
     type: 'userInput',
     content: '',
-    position: { 
-      x: window.innerWidth / 2 - 150,
-      y: window.innerHeight / 2 - 350
-     },
+    position: { x: 100, y: 100 },
     data: { label: "", content: "" },
     selected: false
   },

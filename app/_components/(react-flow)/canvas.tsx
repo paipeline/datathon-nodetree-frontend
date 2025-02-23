@@ -35,14 +35,14 @@ export default function Canvas() {
 
 
   // todo: delete this function when deploy
-  const handleAddResponse = () => {
-    const selectedNode = customNodes.find(node => node.selected);
-    if (selectedNode) {
-      handleAddResponseNode(setCustomNodes, setCustomEdges, "title", "solution", selectedNode.id);
-    } else {
-      console.log("没有选中的节点");
-    }
-  };
+  // const handleAddResponse = () => {
+  //   const selectedNode = customNodes.find(node => node.selected);
+  //   if (selectedNode) {
+  //     handleAddResponseNode(setCustomNodes, setCustomEdges, "title", "solution", selectedNode.id);
+  //   } else {
+  //     console.log("没有选中的节点");
+  //   }
+  // };
 
   useEffect(() => {
     console.log("customNodes", customNodes);
@@ -89,12 +89,12 @@ export default function Canvas() {
           >
             Add Input Node
           </button>
-          <button
+          {/* <button
             onClick={handleAddResponse}
             className="px-4 py-2 bg-green-500 text-white rounded"
           >
             Add AI Response Node
-          </button>
+          </button> */}
         </div>
     </ReactFlowProvider>
   );
