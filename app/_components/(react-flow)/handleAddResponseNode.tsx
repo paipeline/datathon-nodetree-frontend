@@ -36,7 +36,7 @@ export const handleAddResponseNode = (
 
         let newX = 0;
         if (baseNodeChildren.length === 0) {
-            newX = baseNode.position.x - 700;
+            newX = baseNode.position.x - 500;
         } else {
             const lastChild = baseNodeChildren[baseNodeChildren.length - 1];
             newX = lastChild.position.x + 500;
