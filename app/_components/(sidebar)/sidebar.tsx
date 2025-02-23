@@ -1,6 +1,6 @@
 "use client";
 
-import { PanelLeftDashed, SquarePen, Search } from "lucide-react";
+import { PanelLeftDashed, SquarePen, Search, XCircle, X } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,7 @@ const Sidebar = ({
   onSidebarToggle: (isOpen: boolean) => void;
 }) => {
   const router = useRouter();
-  const { historyRecords, addConversation } = useConversation();
+  const { historyRecords, addConversation, deleteConversation } = useConversation();
   
   // react state
   const [sidebarWidth, setSidebarWidth] = useState(320);
@@ -116,6 +116,10 @@ const Sidebar = ({
     }
   };
 
+  const handleDeleteConversation = (id: string) => {
+    deleteConversation(id);
+  };
+
   return (
     <div
       ref={sidebarRef}
@@ -192,15 +196,22 @@ const Sidebar = ({
           ).map((record) => (
             <li
               key={record.id}
-              className={cn(
-                "flex items-center justify-start py-2 px-4 cursor-pointer mt-2 rounded-lg hover:bg-gray-100 transition-all duration-300 hover:text-blue-500",
-                isSidebarFullyOpen ? "opacity-100" : "opacity-0"
-              )}
+              className="group flex items-center justify-between py-2 px-4 cursor-pointer mt-2 rounded-lg hover:bg-gray-100 transition-all duration-300 hover:text-blue-500"
               onClick={() => router.push(`/dashboard/${record.id}`)}
             >
-              <p className="text-gray-700 text-sm cursor-pointer">
-                {record.title}
-              </p>
+              {/* 左侧：对话标题 */}
+              <p className="text-gray-700 text-sm">{record.title}</p>
+
+              {/* 右侧：删除按钮（悬停显示） */}
+              <button
+                className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-1 rounded hover:bg-red-100"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteConversation(record.id);
+                }}
+              >
+                <XCircle className="w-5 h-5 text-gray-500 hover:text-red-500" />
+              </button>
             </li>
           ))}
         </ul>

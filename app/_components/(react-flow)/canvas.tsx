@@ -15,14 +15,14 @@ import { v4 as uuidv4 } from "uuid";
 import { initialNodes, initialEdges } from "./canvas.node";
 import handleAddInputNode from "./handleAddInputNode";
 import handleAddResponseNode from "./handleAddResponseNode";
-import UserInput from "./user-input";
+import { UserInput } from "./user-input";
 
 // 关键点：导入原先的 nodeTypes，但是需要重写 userInput
 import { nodeTypes as baseNodeTypes } from "./canvas.node";
 
 export default function Canvas() {
-  const [customNodes, setCustomNodes, onCustomNodesChange] = useNodesState(initialNodes);
-  const [customEdges, setCustomEdges, onCustomEdgesChange] = useEdgesState(initialEdges);
+  const [customNodes, setCustomNodes, onCustomNodesChange] = useNodesState(initialNodes as any);
+  const [customEdges, setCustomEdges, onCustomEdgesChange] = useEdgesState(initialEdges as any);
 
   const onConnect = useCallback((connection: any) => {
     const edge = { ...connection, animated: true, id: uuidv4() + "-edge" };

@@ -1,14 +1,21 @@
-import UserInput from "./user-input";
+import { UserInput } from "./user-input";
 import AiResponse from "./ai-response";
 import { Node as ReactFlowNode } from '@xyflow/react';
 
-export interface Node extends ReactFlowNode {
-  content?: string;
-  metadata?: any;
-  parentNodeId?: string;
-  childrenNodeIds?: string[];
-  data: {
-    label?: string;
+export interface Node {
+  id: string;                // 节点唯一标识
+  color?: string;             // 颜色调节
+  type: string;               // 节点类型，例如 "question" | "answer" | "reasoning"
+  content?: string;            // 节点主要内容
+  metadata?: any;             // 节点元数据，存储额外信息（时间戳、来源等）
+  parentNodeId?: string;      // 父节点ID
+  childrenNodeIds?: string[]; // 子节点ID
+  position: {                 // 节点位置
+    x: number;
+    y: number;
+  };
+  data?: {                    // 新增的 data 属性
+    label: string;    
     content?: string;
     [key: string]: unknown;
   };
@@ -23,7 +30,7 @@ export const initialNodes: Node[] = [
       x: window.innerWidth / 2 - 150,
       y: window.innerHeight / 2 - 350
      },
-    data: { content: "" }
+    data: { label: "", content: "" }
   },
   // fake nodes for testing
   // {

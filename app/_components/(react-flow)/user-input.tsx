@@ -2,30 +2,19 @@
 
 import React, { useState, useRef } from "react";
 import { ArrowUp, Trash } from "lucide-react";
-import { Handle, Position } from "@xyflow/react";
+import { toast } from "sonner";
+import "@/styles/fade-in.css";
+import { Handle, Position } from '@xyflow/react';
+import { handleAddResponseNode } from "./handleAddResponseNode";
 
-import handleAddResponseNode from "./handleAddResponseNode";
-import { Node } from "./canvas.node";
+export const UserInput = ({ setCustomNodes }: { setCustomNodes: (nodes: any) => void }) => {
 
-// data: 用于节点自带内容
-// setCustomNodes: 父组件里（Canvas）传进来的
-export default function UserInput({
-  data,
-  setCustomNodes
-}: {
-  data: { content?: string }; 
-  setCustomNodes: React.Dispatch<React.SetStateAction<Node[]>>;
-}) {
-  const [inputValue, setInputValue] = useState<string>(data?.content || "");
+  const [textareaHeight, setTextareaHeight] = useState<number>(0);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [adjustCount, setAdjustCount] = useState(0);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+  const [position, setPosition] = useState<string>("gpt-4o-mini");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  // const handleAddResponse = () => {
-  //   if (!inputValue.trim()) return;
-  //   handleAddResponseNode(setCustomNodes as any, inputValue.trim());
-  //   handleAddResponseNode(setCustomNodes as any, inputValue.trim());
-  //   handleAddResponseNode(setCustomNodes as any, inputValue.trim());
-  //   setInputValue("");
-  // };
 
   const handleAddResponse = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -55,11 +44,6 @@ export default function UserInput({
 
       console.log("responsing");
       console.log(response);
-
-      // 可以reach到
-      // handleAddResponseNode(setCustomNodes as any, "test - from user input");
-      // handleAddResponseNode(setCustomNodes as any, "test - from user input");
-      // handleAddResponseNode(setCustomNodes as any, "test - from user input");
 
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
@@ -111,6 +95,7 @@ export default function UserInput({
 
   return (
     <div
+    className="border-sky-400"
       style={{
         padding: 10,
         backgroundColor: "rgba(240, 240, 240, 0.7)",
@@ -128,23 +113,20 @@ export default function UserInput({
       <div className="text-sm text-gray-500 font-bold mb-2">Ask Me Now...</div>
       <textarea
         ref={textareaRef}
-        className="w-full outline-none resize-none bg-transparent p-2 pl-6 border rounded-md"
+        className="relative w-full outline-none resize-none bg-transparent p-2 pl-4 z-10 border rounded-md"
         value={inputValue}
         placeholder="请输入..."
         onChange={(e) => setInputValue(e.target.value)}
       />
-      <div className="flex items-center justify-end w-full h-full bg-transparent mt-2">
-        <div
-          className="flex items-center justify-center w-6 h-6 bg-gray-300 hover:bg-gray-200 rounded-lg 
-          hover:cursor-pointer hover:w-12 transition-all duration-300 mr-2"
-        >
+      <div className="flex items-center justify-end w-full h-full bg-transparent z-10">
+        <div className={`flex items-center justify-center w-6 h-6 bg-gray-400 hover:bg-gray-300 rounded-lg hover:cursor-pointer hover:w-12
+              transition-all duration-300`}>
           <Trash className="w-4 h-4 text-black" />
         </div>
-        <div
-          className="flex items-center justify-center w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-lg
-          hover:cursor-pointer hover:w-12 transition-all duration-300"
-          onClick={handleAddResponse}
-        >
+        <div className={`flex items-center justify-center ml-3 w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-lg hover:cursor-pointer hover:w-12
+            transition-all duration-300`}
+            onClick={handleAddResponse}
+            >
           <ArrowUp className="w-4 h-4 text-white" />
         </div>
       </div>

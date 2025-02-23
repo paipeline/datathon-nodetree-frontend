@@ -29,7 +29,7 @@ export const handleAddResponseNode = (
         // 这里以"最后一个" userInput 节点作为父节点
         const lastUserInputNode = userInputNodes[userInputNodes.length - 1];
 
-        // 在父节点坐标基础上，x 轴向右移动 500px，y 轴向上移动 100px
+        // in respect to the father node, add the new node to the good position
         console.log("lastUserInputNode", lastUserInputNode);
         const newX = prevNodes[prevNodes.length - 1].type === "userInput" ? lastUserInputNode.position.x - 1000 : prevNodes[prevNodes.length - 1].position.x + 500;
         const newY = lastUserInputNode.position.y + 300;

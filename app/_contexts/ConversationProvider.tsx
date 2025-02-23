@@ -19,6 +19,7 @@ type ConversationContextType = {
   getConversationById: (id: string) => Conversation | undefined;
   addConversation: (conversation: Conversation) => void;
   updateConversation: (conversation: Conversation) => void;
+  deleteConversation: (id: string) => void;
 };
 
 const ConversationContext = createContext<ConversationContextType | undefined>(undefined);
@@ -38,6 +39,10 @@ export function ConversationProvider({ children }: { children: React.ReactNode }
     setHistoryRecords(prev => [newConversation, ...prev]);
   }, []);
 
+  const deleteConversation = useCallback((id: string) => {
+    setHistoryRecords(prev => prev.filter(conv => conv.id !== id));
+  }, []);
+
   const updateConversation = useCallback((conversation: Conversation) => {
     setHistoryRecords(prev => {
       const updatedConversation = {
@@ -55,6 +60,7 @@ export function ConversationProvider({ children }: { children: React.ReactNode }
       getConversationById,
       addConversation,
       updateConversation,
+      deleteConversation,
     }}>
       {children}
     </ConversationContext.Provider>
