@@ -35,14 +35,13 @@ export const handleAddResponseNode = (
 
         let newX = 0;
         if (baseNodeChildren.length === 0) {
-            newX = baseNode.position.x - 1000;
+            newX = baseNode.position.x - 700;
         } else {
             const lastChild = baseNodeChildren[baseNodeChildren.length - 1];
             newX = lastChild.position.x + 500;
         }
 
         const newY = positionAbsoluteY + 300;
-        //
 
         const newNode: Node = {
             id: uuidv4(),

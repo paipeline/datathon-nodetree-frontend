@@ -178,11 +178,9 @@ const AiResponse = ({
   return (
     <div
       ref={aiResponseRef}
-      className={cn(
-        "relative fade-in-1 transition-all duration-100"
-      )}
+      className={cn("relative fade-in-1 transition-all duration-100")}
       style={{
-        height: isExpand ? `${aiResponseRef.current?.scrollHeight}px` : "130px",
+        height: isExpand ? `${aiResponseRef.current?.scrollHeight}px` : "230px",
         borderColor: "oklch(0.871 0.15 154.449)",
         padding: 10,
         backgroundColor: "rgba(240, 240, 240, 0.7)",
@@ -200,19 +198,37 @@ const AiResponse = ({
       <Handle type="source" position={Position.Bottom} id="a" />
       <div className="flex items-center justify-start w-full mb-2">
         <div className="text-sm text-gray-500 font-bold">{"AI Response"}</div>
-        <Button variant="outline" className="flex items-center gap-2 text-xs h-6 ml-auto" onClick={handleExpand}>
+        <Button
+          variant="outline"
+          className="flex items-center gap-2 text-xs h-6 ml-auto"
+          onClick={handleExpand}
+        >
           <Maximize className="w-4 h-4 text-gray-500 hover:cursor-pointer hover:text-gray-700" />
-          <p className="text-xs">{isExpand ? "Collapse" : "Expand"}</p>
+          <p className="text-xs">{isExpand ? "Collapse" : "Expand"}</p >
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="text-xs w-12 h-6 ml-2">Priority</Button>
+            <Button variant="outline" className="text-xs w-12 h-6 ml-2">
+              Priority
+            </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-              <DropdownMenuRadioItem onClick={() => setRed()} value={"high"}>High</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value={"Medium"} onClick={() => setOrange()}>Medium</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value={"Low"} onClick={() => setYellow()}>Low</DropdownMenuRadioItem>
+            <DropdownMenuRadioGroup
+              value={position}
+              onValueChange={setPosition}
+            >
+              <DropdownMenuRadioItem onClick={() => setRed()} value={"high"}>
+                High
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem
+                value={"Medium"}
+                onClick={() => setOrange()}
+              >
+                Medium
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value={"Low"} onClick={() => setYellow()}>
+                Low
+              </DropdownMenuRadioItem>
             </DropdownMenuRadioGroup>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -224,20 +240,29 @@ const AiResponse = ({
             remarkPlugins={[remarkMath]}
             rehypePlugins={[rehypeKatex]}
             components={{
-              code: ({ node, inline, className, children, ...props }: {
+              code: ({
+                node,
+                inline,
+                className,
+                children,
+                ...props
+              }: {
                 node?: any;
                 inline?: boolean;
                 className?: string;
                 children?: React.ReactNode;
               }) => {
-                const match = /language-(\w+)/.exec(className || '');
-                const lang = match ? match[1] : '';
+                const match = /language-(\w+)/.exec(className || "");
+                const lang = match ? match[1] : "";
 
                 if (inline || !lang) {
                   return (
                     <code
                       className="bg-gray-700 rounded px-1 text-white"
-                      style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}
+                      style={{
+                        whiteSpace: "pre-wrap",
+                        wordBreak: "break-word",
+                      }}
                       {...props}
                     >
                       {children}
@@ -246,34 +271,100 @@ const AiResponse = ({
                 }
                 return (
                   <SyntaxHighlighter
-                    language={lang || 'text'}
+                    language={lang || "text"}
                     style={vscDarkPlus}
                     customStyle={{
                       margin: 0,
-                      borderRadius: '0.375rem',
-                      background: '#1e1e1e'
+                      borderRadius: "0.375rem",
+                      background: "#1e1e1e",
                     }}
                     PreTag="div"
                   >
-                    {String(children).replace(/\n$/, '')}
+                    {String(children).replace(/\n$/, "")}
                   </SyntaxHighlighter>
                 );
               },
-              a: ({ node, ...props }) => <a target="_blank" rel="noopener noreferrer" {...props} />,
+              a: ({ node, ...props }) => (
+                <a target="_blank" rel="noopener noreferrer" {...props} />
+              ),
             }}
           >
             {`# **Title:** ${title}\n\n# **Solution:**\n ${solution}`}
           </ReactMarkdown>
         </div>
       ) : (
-        <div className={cn(
-          "text-lg font-bold flex items-center gap-2 text-gray-500 mb-2 italic pt-2 fade-in-1 transition-all duration-300",
-          isFullyExpanded ? "opacity-0" : "opacity-100"
-        )}>
-          {/* <h3>Title: </h3> */}
-          <p style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-            {title}
-          </p>
+        <div
+          className={cn(
+            "text-lg font-bold flex flex-col gap-2 text-gray-500 mb-2 italic pt-2 fade-in-1 transition-all duration-300",
+            isFullyExpanded ? "opacity-0" : "opacity-100"
+          )}
+        >
+          <div
+            className="overflow-hidden line-clamp-5"
+            style={{
+              display: "-webkit-box",
+              WebkitLineClamp: "5",
+              WebkitBoxOrient: "vertical",
+              textOverflow: "ellipsis",
+            }}
+          >
+            <ReactMarkdown
+              remarkPlugins={[remarkMath]}
+              rehypePlugins={[rehypeKatex]}
+              components={{
+                code: ({ node, inline, className, children, ...props }) => {
+                  const match = /language-(\w+)/.exec(className || "");
+                  const lang = match ? match[1] : "";
+
+                  if (inline || !lang) {
+                    return (
+                      <code
+                        className="bg-gray-200 text-black rounded px-1"
+                        style={{
+                          whiteSpace: "pre-wrap",
+                          wordBreak: "break-word",
+                        }}
+                        {...props}
+                      >
+                        {children}
+                      </code>
+                    );
+                  }
+
+                  return (
+                    <SyntaxHighlighter
+                      language={lang || "text"}
+                      style={vscDarkPlus}
+                      customStyle={{
+                        margin: 0,
+                        borderRadius: "0.375rem",
+                        background: "#1e1e1e",
+                      }}
+                      PreTag="div"
+                    >
+                      {String(children).replace(/\n$/, "")}
+                    </SyntaxHighlighter>
+                  );
+                },
+
+                p: ({ children }) => (
+                  <p className="text-gray-800 text-[16px] leading-6 ml-2">
+                    {children}
+                  </p >
+                ),
+
+                em: ({ children }) => (
+                  <em className="text-gray-600 italic">{children}</em>
+                ),
+
+                strong: ({ children }) => (
+                  <strong className="text-black font-bold">{children}</strong>
+                ),
+              }}
+            >
+              {solution}
+            </ReactMarkdown>
+          </div>
         </div>
       )}
       <div className="relative flex items-center mt-5">
@@ -288,12 +379,15 @@ const AiResponse = ({
           onInput={handleInput}
           onBlur={() => setIsFocused(false)}
         />
-        <div className="absolute top-0 right-2 flex items-center gap-2" >
-          <div className={`flex items-center justify-center w-6 h-6 bg-gray-400 hover:bg-gray-300 rounded-lg hover:cursor-pointer 
-                transition-transform duration-300`}>
+        <div className="absolute top-0 right-2 flex items-center gap-2">
+          <div
+            className={`flex items-center justify-center w-6 h-6 bg-gray-400 hover:bg-gray-300 rounded-lg hover:cursor-pointer 
+                transition-transform duration-300`}
+          >
             <Trash className="w-3 h-3 text-black" />
           </div>
-          <div className={`flex items-center justify-center w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-lg hover:cursor-pointer
+          <div
+            className={`flex items-center justify-center w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-lg hover:cursor-pointer
               transition-transform duration-300`}
             onClick={handleAddResponse}
           >
