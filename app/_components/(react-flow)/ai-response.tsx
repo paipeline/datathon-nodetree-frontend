@@ -16,6 +16,11 @@ import 'katex/dist/katex.min.css';
 import { Handle, Position } from '@xyflow/react';
 
 const AiResponse = ({ data: { title, solution } }: { data: { title: string, solution: string } }) => {
+  // if title or solution is undefined, return null, not render the node
+  if (title === undefined || solution === undefined) {
+    return null;
+  }
+
   // console.log("content - ai-response", content);
   return (
     <div
