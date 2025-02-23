@@ -50,7 +50,7 @@ function UserInput({ data, onSubmit, setIsLoading }: { data: any, onSubmit: (inp
     setInputValue(event.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (inputValue.trim() === "") {
       toast.error("Please enter a message");
@@ -67,7 +67,7 @@ function UserInput({ data, onSubmit, setIsLoading }: { data: any, onSubmit: (inp
       if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
         e.preventDefault();
         if (inputValue.trim() === "") {
-          toast.error("Please enter a message");
+          // toast.error("Please enter a message");
           return;
         }
         setIsLoading(true);
@@ -114,7 +114,9 @@ function UserInput({ data, onSubmit, setIsLoading }: { data: any, onSubmit: (inp
           <Trash className="w-4 h-4 text-black" />
         </div>
         <div className={`flex items-center justify-center ml-3 w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-lg hover:cursor-pointer hover:w-12
-            transition-all duration-300`}>
+            transition-all duration-300`}
+            onClick={handleSubmit}
+            >
           <ArrowUp className="w-4 h-4 text-white" />
         </div>
       </div>

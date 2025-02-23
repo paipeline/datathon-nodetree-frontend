@@ -48,10 +48,16 @@ const ConversationArea = ({
     updateConversation(updatedConversation);
 
     try {
-      const response = await fetch("/api/chat", {
+      const response = await fetch("http://localhost:8000/api/v1/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: updatedMessages }),
+        body: JSON.stringify({
+          messages: updatedMessages,
+          prompt: updatedMessages[updatedMessages.length - 1].content,
+          max_tokens: 2000,
+          temperature: 0.7,
+          model: "gpt-4o-mini"
+        }),
       });
 
       if (!response.ok) throw new Error("Request failed");
@@ -161,10 +167,10 @@ const ConversationArea = ({
         className="flex justify-center p-2 pt-0"
         style={{
           transition: 'transform 1s cubic-bezier(0.25, 0.8, 0.25, 1)',
-          transform: caroselIndex === 0 ? 'translateX(0)' : undefined,
+          transform: caroselIndex === 0 ? 'translateY(0)' : 'translateY(100%)',
         }}
       >
-        <style jsx>{`
+        {/* <style jsx>{`
           @media (min-width: 1024px) and (max-width: 1279px) {
             div {
               transform: ${caroselIndex !== 0 ? 'translateX(15%)' : 'translateX(0)'};
@@ -180,7 +186,7 @@ const ConversationArea = ({
               transform: ${caroselIndex !== 0 ? 'translateX(30%)' : 'translateX(0)'};
             }
           }
-        `}</style>
+        `}</style> */}
         <InputBar onSubmit={handleSubmit} setIsLoading={setIsLoading} isLoading={isLoading} />
       </div>
     </div>
