@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import {
   ReactFlow,
   MiniMap,
@@ -41,8 +41,8 @@ export default function Canvas() {
     console.log("customNodes", customNodes);
   }, [customNodes]);
 
-  // 重写 userInput: 注入 setCustomNodes
-  const nodeTypes = {
+  // 使用 useMemo 来记忆化 nodeTypes
+  const nodeTypes = useMemo(() => ({
     ...baseNodeTypes,
     userInput: (nodeProps: any) => (
       <UserInput
@@ -50,7 +50,7 @@ export default function Canvas() {
         setCustomNodes={setCustomNodes}
       />
     ),
-  };
+  }), [setCustomNodes]);
 
   return (
     <ReactFlowProvider>
