@@ -181,23 +181,6 @@ const ConversationArea = ({
           transform: caroselIndex === 0 ? 'translateY(0)' : 'translateY(100%)',
         }}
       >
-        {/* <style jsx>{`
-          @media (min-width: 1024px) and (max-width: 1279px) {
-            div {
-              transform: ${caroselIndex !== 0 ? 'translateX(15%)' : 'translateX(0)'};
-            }
-          }
-          @media (min-width: 1280px) and (max-width: 1535px) {
-            div {
-              transform: ${caroselIndex !== 0 ? 'translateX(25%)' : 'translateX(0)'};
-            }
-          }
-          @media (min-width: 1536px) {
-            div {
-              transform: ${caroselIndex !== 0 ? 'translateX(30%)' : 'translateX(0)'};
-            }
-          }
-        `}</style> */}
         <InputBar onSubmit={handleSubmit} setIsLoading={setIsLoading} isLoading={isLoading} />
       </div>
     </div>

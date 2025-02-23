@@ -55,20 +55,6 @@ export default function Canvas() {
   return (
     <ReactFlowProvider>
       <div style={{ width: "100%", height: "100%" }}>
-        <div style={{ marginBottom: 10 }}>
-          <button
-            onClick={handleAddInput}
-            className="px-4 py-2 bg-blue-500 text-white rounded mr-2"
-          >
-            Add Input Node
-          </button>
-          <button
-            onClick={handleAddResponse}
-            className="px-4 py-2 bg-green-500 text-white rounded"
-          >
-            Add AI Response Node
-          </button>
-        </div>
         <ReactFlow
           nodes={customNodes}
           edges={customEdges}
@@ -82,6 +68,20 @@ export default function Canvas() {
           <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
         </ReactFlow>
       </div>
+      <div style={{ position: "absolute", bottom: 10, left: 10 }}>
+          <button
+            onClick={handleAddInput}
+            className="px-4 py-2 bg-blue-500 text-white rounded mr-2"
+          >
+            Add Input Node
+          </button>
+          <button
+            onClick={handleAddResponse}
+            className="px-4 py-2 bg-green-500 text-white rounded"
+          >
+            Add AI Response Node
+          </button>
+        </div>
     </ReactFlowProvider>
   );
 }

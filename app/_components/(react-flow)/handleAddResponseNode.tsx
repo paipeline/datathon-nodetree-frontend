@@ -21,6 +21,11 @@ export const handleAddResponseNode = (
             solution
         }
     };
+    // check if the title or the solution is undefined
+    if (title === undefined || solution === undefined) {
+        console.log("title or solution is undefined -- from handleAddResponseNode");
+        return;
+    }
     console.log("Node added:", newNode);
     setNodes((prevNodes: any) => [...prevNodes, newNode]);
 };
