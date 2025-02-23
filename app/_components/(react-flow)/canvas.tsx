@@ -81,19 +81,19 @@ export default function Canvas() {
           <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
         </ReactFlow>
       </div>
-      <div style={{ position: "absolute", bottom: 10, left: 10 }}>
+      <div style={{ position: "absolute", bottom: 10, left: 66 }}>
           <button
             onClick={handleAddInput}
-            className="px-4 py-2 bg-blue-500 text-white rounded mr-2"
+            className="px-4 py-1 bg-gray-300 text-gray-600 rounded-xl mr-2 hover:bg-[#d2d1d1] hover:cursor-pointer hover:text-gray-800 transition-all duration-300"
           >
             Add Input Node
           </button>
-          <button
+          {/* <button
             onClick={handleAddResponse}
             className="px-4 py-2 bg-green-500 text-white rounded"
           >
             Add AI Response Node
-          </button>
+          </button> */}
         </div>
     </ReactFlowProvider>
   );
