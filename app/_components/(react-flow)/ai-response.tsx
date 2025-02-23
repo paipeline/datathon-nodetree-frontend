@@ -15,9 +15,8 @@ import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 import { Handle, Position } from '@xyflow/react';
 
-const AiResponse = ({ content }: { content: string }) => {
-
-  
+const AiResponse = ({ data: { content } }: { data: { content: string } }) => {
+  console.log("content - ai-response", content);
   return (
     <div
       style={{

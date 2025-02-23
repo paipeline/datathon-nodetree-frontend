@@ -2,7 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Add these custom styles for markdown content */
+.prose {
+  max-width: none;
+}
 
+.prose-sm {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.prose-pre\:bg-transparent pre {
+  background-color: transparent;
+}
+
+.prose-pre\:p-0 pre {
+  padding: 0;
+}
 
 @layer base {
   :root {

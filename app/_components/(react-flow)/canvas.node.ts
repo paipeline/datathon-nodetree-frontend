@@ -23,35 +23,35 @@ export const initialNodes = [
     type: 'userInput',
     content: '',
     position: { x: 150, y: 150 },
-    data: { label: 'User Input Node' }
+    data: { content: 'User Input Node' }
   },
   {
     id: 'ai-response-node-1',
     type: 'aiResponse',
     content: '',
     position: { x: 150, y: 150 },
-    data: { label: 'AI Response Node' }
+    data: { content: 'Shenwei' }
   },
   {
     id: 'ai-response-node-2',
     type: 'aiResponse',
     content: '',
     position: { x: 150, y: 150 },
-    data: { label: 'AI Response Node' }
+    data: { content: 'Pai' }
   },
   {
     id: 'ai-response-node-3',
     type: 'aiResponse',
     content: '',
     position: { x: 150, y: 150 },
-    data: { label: 'AI Response Node' }
+    data: { content: 'AI Response Node' }
   },
   {
     id: 'ai-response-node-4',
     type: 'aiResponse',
     content: '',
     position: { x: 150, y: 150 },
-    data: { label: 'AI Response Node' }
+    data: { content: 'AI Response Node' }
   }
 ];
 
